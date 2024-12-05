@@ -62,13 +62,13 @@ const Auth = observer (() =>{
             className="mt-3"
             placeholder="Введите ваш пароль"
             value = {password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={e => setPassword(e.target.value)} //ЛЕША 
             type="password"
         />
         <Row className="mt-3">
             {isLogin ?
                     <Col>
-                        <NavLink to={REGISTRATION_ROUTE}>Зарегистрируйтесь</NavLink>, если у вас нет аккаунта.
+                        <NavLink to={REGISTRATION_ROUTE}>Зарегистрируйтесь</NavLink>, если у вас нет аккаунта. 
                     </Col>
                     :
                     <Col>
