@@ -22,3 +22,11 @@ export const CreateDepartment= async (name)=>{
     // Возвращение полученных данных
     return data
 }
+
+// Функция для редактирования кафедры
+export const updateDepartment = async (id, name) => {
+    // Выполнение PUT-запроса к API
+    const { data } = await $host.put(`api/department/${id}`, { name });
+    // Возвращение полученных данных
+    return data;
+}

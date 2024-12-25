@@ -41,11 +41,15 @@ const CreatePositionModal = ({show, onHide}) => {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
+            <Button 
+                    variant="primary" 
+                    onClick={handleAddClick} 
+                    style={{ backgroundColor: '#4682B4', borderColor: '#4682B4' }} // Устанавливаем цвет фона кнопки
+                >
+                    Добавить
+                </Button>
                 <Button variant="secondary" onClick={onHide}>
                     Закрыть
-                </Button>
-                <Button variant="primary" disabled={!PositionName || !PositionShortName} onClick={handleAddClick}>
-                    Добавить
                 </Button>
             </Modal.Footer>
         </Modal>

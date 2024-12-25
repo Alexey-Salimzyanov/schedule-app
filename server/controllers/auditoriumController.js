@@ -44,5 +44,28 @@ class AuditoriumController{
         await request.destroy();
         return res.json({message: "Удаление прошло успешно"});
     }
+
+    //Метод для редактирования аудитории по id
+    async update(req, res) {
+        const { id } = req.params; // Получаем id из параметров запроса
+        const { number, capacity, typeListId } = req.body; // Получаем данные для обновления из тела запроса
+    
+        // Проверяем, существует ли аудитория с данным id
+        const auditorium = await AuditoriumList.findOne({ where: { id } });
+        if (!auditorium) {
+            return res.status(404).json({ message: "Аудитория не найдена" });
+        }
+    
+        // Обновляем данные аудитории
+        auditorium.number = number;
+        auditorium.capacity = capacity;
+        auditorium.typeListId = typeListId;
+    
+        // Сохраняем изменения в базе данных
+        await auditorium.save();
+    
+        // Возвращаем обновленные данные
+        return res.json(auditorium);
+    }
 }
 module.exports = new AuditoriumController()

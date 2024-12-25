@@ -22,7 +22,7 @@ const AdminPage = observer( () =>{
     // Определение текущей таблицы в зависимости от активной таблицы
     let currentTable;
     switch(table.activeTable) {
-        case "Справочник заявок":
+        case "Заявки":
              currentTable = <RequestTable extraActions={true} />;
             break;
         case "Справочник кафедр":
@@ -46,7 +46,7 @@ const AdminPage = observer( () =>{
            case "Справочник аудиторий":
                currentTable = <AudTable/>;
                break;
-           case "Справочник занятий":
+           case "Расписание занятий":
                currentTable = <LessonsTable/>;
                break;
            case "Справочник учетных записей":

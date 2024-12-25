@@ -15,6 +15,15 @@ const RequestTable = ({ extraActions = false })=> {
         setScheduleReq(scheduleDataReq);
     };
 
+    // Функция для удаления заявки с подтверждением
+    const handleDeleteReq = async (id) => {
+        const confirmDelete = window.confirm("Вы уверены, что хотите удалить эту заявку?");
+        if (confirmDelete) {
+            await deleteReq(id);
+            fetchData();
+        }
+    };
+
     // Используем useEffect для вызова fetchData при монтировании компонента
     useEffect(() => {
         fetchData();
@@ -29,7 +38,14 @@ const RequestTable = ({ extraActions = false })=> {
     };
     return (
         <>
-        <Button variant="primary" onClick={handleShowRequestModal} className="mt-3">Добавить заявку</Button>
+        <Button 
+            variant="primary" 
+            onClick={handleShowRequestModal} 
+            className="mt-3" 
+            style={{ backgroundColor: '#4682B4', borderColor: '#4682B4' }} // Изменение фона и цвета границы
+        >
+            Добавить заявку
+        </Button>
             <Table striped bordered hover className="mt-3">
                 <thead>
                     <tr>
@@ -63,8 +79,13 @@ const RequestTable = ({ extraActions = false })=> {
                             <td>{new Date(item.lastDate).toLocaleDateString()}</td>
                             <td>{item.status}</td>
                             <td>
-                                {/* Кнопка для удаления заявки */}
-                                <Button variant="outline-danger"  onClick={async () => {await deleteReq(item.id);fetchData();}}>Удалить</Button>
+                                {/* Кнопка для удаления заявки с подтверждением */}
+                                <Button 
+                                    variant="outline-danger"  
+                                    onClick={() => handleDeleteReq(item.id)} // Используем функцию для удаления с подтверждением
+                                >
+                                    Удалить
+                                </Button>
                             </td>
                             {extraActions && (
                                 <>

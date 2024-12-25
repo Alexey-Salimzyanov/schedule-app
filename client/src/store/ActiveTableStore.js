@@ -6,8 +6,8 @@ export default class ActiveTableStore {
 
     // Конструктор класса
     constructor() {
-        // Инициализация активной таблицы значением "Справочник заявок"
-        this._activeTable="Справочник заявок";
+        // Инициализация активной таблицы значением "Заявки"
+        this._activeTable="Заявки";
         // Применение функции makeAutoObservable к текущему экземпляру класса
         makeAutoObservable(this);
     }

@@ -24,3 +24,13 @@ export const CreatePosition= async (name, short_name)=>{
     // Возвращение полученных данных
     return data
 }
+
+// Функция для редактирования должности
+export const updatePosition = async (id, name, short_name) => {
+    // Выполнение PUT-запроса к API
+    const { data } = await $host.put(`api/position/${id}`, { name, short_name });
+    // Возвращение полученных данных
+    return data;
+}
+
+

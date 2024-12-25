@@ -21,3 +21,11 @@ export const CreateGroup= async (name)=>{
     // Возвращение полученных данных
     return data
 }
+
+// Функция для редактирования группы
+export const updateGroup = async (id, name) => {
+    // Выполнение PUT-запроса к API
+    const { data } = await $host.put(`api/group/${id}`, { name }); 
+    // Возвращение полученных данных
+    return data;
+}

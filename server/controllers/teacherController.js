@@ -42,6 +42,29 @@ class TeacherController{
         await request.destroy();
         return res.json({message: "Удаление прошло успешно"});
     }
+
+    // Метод редактирования преподавателя
+    async update(req, res) {
+        const { id } = req.params;
+        const { surname_N_P, positionListId, departmentListId } = req.body;
+
+        if (!id) {
+            return res.status(400).json({ message: "ID является обязательным параметром" });
+        }
+
+        const teacher = await TeacherList.findOne({ where: { id } });
+        if (!teacher) {
+            return res.status(404).json({ message: "Объект не найден" });
+        }
+
+        // Обновляем данные преподавателя
+        teacher.surname_N_P = surname_N_P || teacher.surname_N_P;
+        teacher.positionListId = positionListId || teacher.positionListId;
+        teacher.departmentListId = departmentListId || teacher.departmentListId;
+
+        await teacher.save(); // Сохраняем изменения в базе данных
+        return res.json(teacher);
+    }
 }
 
 module.exports = new TeacherController()

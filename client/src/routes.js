@@ -5,7 +5,7 @@ import Schedule from "./pages/Schedule";
 import Auth from "./pages/Auth";
 
 // Импорт констант маршрутов
-import { ADMIN_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, REQUESTS_ROUTE, SCHEDULE_ROUTE } from "./utils/consts";
+import { ADMIN_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, REQUESTS_ROUTE, SCHEDULE_ROUTE} from "./utils/consts";
 
 // Определение публичных маршрутов, доступных всем пользователям
 export const publicRoutes = [

@@ -24,3 +24,11 @@ export const CreateDiscipline = async (name, short_name)=>{
     // Возвращение полученных данных
     return data
 }
+
+// Функция для обновления дисциплины
+export const updateDiscipline = async (id, updatedData) => {
+    // Выполнение PUT-запроса к API
+    const { data } = await $host.put(`api/discipline/${id}`, updatedData);
+    // Возвращение полученных данных
+    return data;
+}

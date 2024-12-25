@@ -2,11 +2,16 @@ import React, { useEffect, useState } from "react";
 import {Table, Button} from "react-bootstrap";
 import { deleteLesson, getLessons } from "../../http/lessonAPI";
 import CreateLessonModal from "../Modals/CreateLesson";
+import EditLessons from "../Modals/EditLessons";
 
 // Компонент таблицы уроков
 const LessonsTable = () => {
     // Состояние для хранения списка уроков
     const [schedule, setSchedule] = useState([]);
+    // Состояние для управления модальным окном
+    const [showLessonModal, setShowLessonModal] = useState(false);
+    // Состояние для выбранного урока
+    const [selectedLesson, setSelectedLesson] = useState(null); 
 
     // Функция для получения данных о уроках из БД
     const fetchData = async () => {
@@ -15,22 +20,43 @@ const LessonsTable = () => {
         setSchedule(scheduleData);
     };
 
-    // Состояние для управления модальным окном создания урока
-    const [showLessonModal, setShowLessonModal] = useState(false);
-
-    // Обработчик открытия модального окна создания урока
+    // Обработчик открытия модального окна для создания нового занятия
     const handleShowLessonModal = () => {
+        setSelectedLesson(null); // Сбрасываем выбранный урок для создания нового
         setShowLessonModal(true);
+    };
+
+    // Обработчик для редактирования занятия
+    const handleEditClick = (lesson) => {
+        setSelectedLesson(lesson);
+        setShowLessonModal(true);
+    };
+
+    // Функция для удаления занятия с подтверждением
+    const handleDeleteLesson = async (id) => {
+        const confirmDelete = window.confirm("Вы уверены, что хотите удалить это занятие?");
+        if (confirmDelete) {
+            await deleteLesson(id);
+            fetchData();
+        }
     };
 
     // Используем useEffect для вызова fetchData при монтировании компонента
     useEffect(() => {
         fetchData();
     }, []);
+
     // Возвращаем разметку компонента
     return (
         <>
-            <Button variant="primary" onClick={handleShowLessonModal} className="mt-3">Добавить занятие</Button>
+            <Button 
+                variant="primary" 
+                onClick={handleShowLessonModal} 
+                className="mt-3" 
+                style={{ backgroundColor: '#4682B4', borderColor: '#4682B4' }} // Устанавливаем цвет фона и границы
+            >
+                Добавить занятие
+            </Button>
             <Table striped bordered hover className="mt-3">
                 <thead>
                     <tr>
@@ -58,11 +84,40 @@ const LessonsTable = () => {
                             <td>{new Date(item.firstDate).toLocaleDateString()}</td>
                             <td>{item.period}</td>
                             <td>{new Date(item.lastDate).toLocaleDateString()}</td>
-                            <td><Button variant="outline-danger"  onClick={async () => {await deleteLesson(item.id);fetchData();}}>Удалить</Button></td>
+                            <td>
+                                <Button 
+                                    variant="outline-danger" 
+                                    onClick={() => handleDeleteLesson(item.id)} // Используем новую функцию для удаления
+                                >
+                                    Удалить
+                                </Button>
+                                <Button 
+                                    variant="outline-warning" 
+                                    onClick={() => handleEditClick(item)} // Обработчик для редактирования
+                                    className="ms-2" // Добавляем отступ слева
+                                >
+                                    Редактировать
+                                </Button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
             </Table>
-            <CreateLessonModal show={showLessonModal} onHide={() => {setShowLessonModal(false);fetchData()}} />
-        </>);};
+                        {/* Модальное окно для создания или редактирования занятия */}
+                        {selectedLesson ? (
+                <EditLessons 
+                    show={showLessonModal} 
+                    onHide={() => { setShowLessonModal(false); setSelectedLesson(null); fetchData(); }} // Сбрасываем выбранный урок при закрытии
+                    lesson={selectedLesson} // Передаем выбранный урок для редактирования
+                />
+            ) : (
+                <CreateLessonModal 
+                    show={showLessonModal} 
+                    onHide={() => { setShowLessonModal(false); fetchData(); }} // Сбрасываем выбранный урок при закрытии
+                />
+            )}
+        </>
+    );
+};
+
 export default LessonsTable;
