@@ -40,7 +40,6 @@ const GeneralTable = observer( () =>{
             }
             currentDate.setDate(currentDate.getDate() + 7 * period);
         }
-        console.log(`First Date: ${firstDate}\nLast Date: ${lastDate}\nPeriod: ${period}\nWeeks: ${weeks}`);
         return weeks;
 
     }
