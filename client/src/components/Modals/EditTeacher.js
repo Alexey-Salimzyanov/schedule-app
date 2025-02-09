@@ -77,7 +77,7 @@ const EditTeacherModal = ({ show, onHide, teacher }) => {
                 <Button variant="secondary" onClick={onHide}>
                     Закрыть
                 </Button>
-                <Button variant="primary" onClick={handleSaveClick}>
+                <Button className="mt-3" variant="primary" onClick={handleSaveClick}>
                     Сохранить изменения
                 </Button>
             </Modal.Footer>

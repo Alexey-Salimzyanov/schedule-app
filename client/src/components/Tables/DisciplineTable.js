@@ -53,7 +53,6 @@ const DisciplineTable = () => {
             <Table striped bordered hover className="mt-3">
                 <thead>
                     <tr>
-                        <th>ID дисциплины</th>
                         <th>Название дисциплины</th>
                         <th>Краткое название дисциплины</th>
                         <th>Действия</th>
@@ -63,7 +62,6 @@ const DisciplineTable = () => {
                     {/* Отображаем список дисциплин */}
                     {disciplines.map((item, index) => (
                         <tr key={index}>
-                            <td>{item.id}</td>
                             <td>{item.name}</td>
                             <td>{item.short_name}</td>
                             <td>

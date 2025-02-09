@@ -59,7 +59,6 @@ const GroupTable = () => {
             <Table striped bordered hover className="mt-3">
                 <thead>
                     <tr>
-                        <th>ID группы</th>
                         <th>Название группы</th>
                         <th>Действия</th>
                     </tr>
@@ -68,7 +67,6 @@ const GroupTable = () => {
                     {/* Отображаем список групп */}
                     {groups.map((item, index) => (
                         <tr key={index}>
-                            <td>{item.id}</td>
                             <td>{item.name}</td>
                             <td>
                                 <Button 

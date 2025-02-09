@@ -45,7 +45,7 @@ const EditDiscipline = ({ show, onHide, discipline, onUpdate }) => {
                             onChange={(e) => setShortName(e.target.value)}
                         />
                     </Form.Group>
-                    <Button variant="primary" type="submit">
+                    <Button className="mt-3" variant="primary" type="submit">
                         Сохранить изменения
                     </Button>
                 </Form>

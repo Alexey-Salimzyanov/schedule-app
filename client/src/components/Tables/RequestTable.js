@@ -75,7 +75,7 @@ const RequestTable = ({ extraActions = false })=> {
                             <td>{item.discipline_list && item.discipline_list.short_name ? item.discipline_list.short_name : 'NULL'}</td>
                             <td>{item.group_list && item.group_list.name ? item.group_list.name : 'NULL'}</td>
                             <td>{new Date(item.firstDate).toLocaleDateString()}</td>
-                            <td>{item.period}</td>
+                            <td>{item.period === 0 ? 'Разовое занятие' : item.period}</td>
                             <td>{new Date(item.lastDate).toLocaleDateString()}</td>
                             <td>{item.status}</td>
                             <td>

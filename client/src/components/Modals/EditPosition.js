@@ -45,7 +45,7 @@ const EditPosition = ({ show, onHide, position, fetchData }) => {
                             required 
                         />
                     </Form.Group>
-                    <Button variant="primary" type="submit">
+                    <Button className="mt-3" variant="primary" type="submit">
                         Сохранить изменения
                     </Button>
                 </Form>

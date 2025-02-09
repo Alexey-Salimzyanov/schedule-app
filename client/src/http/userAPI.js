@@ -38,3 +38,12 @@ export const check = async () => {
         // Обработка возможных ошибок
     }
 }
+
+// Функция для обновления пользователя
+export const updateUser = async (id, login, password, role ) => {
+    console.log('befort');
+    
+    const { data } = await $host.put(`api/user/${id}`, {login, password, role} );
+        console.log('asd');
+    return data;
+}

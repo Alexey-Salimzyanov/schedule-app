@@ -58,7 +58,6 @@ const PositionTable = () => {
             <Table striped bordered hover className="mt-3">
                 <thead>
                     <tr>
-                        <th>ID должности</th>
                         <th>Название должности</th>
                         <th>Краткое название должности</th>
                         <th>Действия</th>
@@ -67,7 +66,6 @@ const PositionTable = () => {
                 <tbody>
                     {positions.map((item) => (
                         <tr key={item.id}>
-                            <td>{item.id}</td>
                             <td>{item.name}</td>
                             <td>{item.short_name}</td>
                             <td>

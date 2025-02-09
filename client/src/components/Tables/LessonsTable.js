@@ -60,7 +60,6 @@ const LessonsTable = () => {
             <Table striped bordered hover className="mt-3">
                 <thead>
                     <tr>
-                        <th>ID занятия</th>
                         <th>№ аудитории</th>
                         <th>№ пары</th>
                         <th>Преподаватель</th>
@@ -75,7 +74,6 @@ const LessonsTable = () => {
                 <tbody>
                     {schedule.map((item, index) => (
                         <tr key={index}>
-                            <td>{item.id}</td>
                             <td>{item.auditorium_list && item.auditorium_list.number ? item.auditorium_list.number : 'NULL'}</td>
                             <td>{item.number}</td>
                             <td>{item.teacher_list&& item.teacher_list.surname_N_P ? item.teacher_list.surname_N_P : 'NULL'}</td>

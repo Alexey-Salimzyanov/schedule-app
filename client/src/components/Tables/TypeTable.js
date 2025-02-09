@@ -57,7 +57,6 @@ const TypeTable = () => {
             <Table striped bordered hover className="mt-3">
                 <thead>
                     <tr>
-                        <th>ID типа аудитории</th>
                         <th>Название типа аудитории</th>
                         <th>Действия</th> {/* Обновленный заголовок */}
                     </tr>
@@ -65,7 +64,6 @@ const TypeTable = () => {
                 <tbody>
                     {types.map((item, index) => (
                         <tr key={index}>
-                            <td>{item.id}</td>
                             <td>{item.name}</td>
                             <td>
                                 <Button 

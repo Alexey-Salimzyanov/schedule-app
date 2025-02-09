@@ -39,7 +39,7 @@ const EditAudType = ({ show, onHide, type, onUpdate }) => {
                             onChange={(e) => setName(e.target.value)}
                         />
                     </Form.Group>
-                    <Button variant="primary" type="submit">
+                    <Button className="mt-3" variant="primary" type="submit">
                         Сохранить изменения
                     </Button>
                 </Form>

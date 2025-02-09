@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react"; 
-import { Table, Button } from "react-bootstrap"; 
-import { deleteDepartment, getDepartments } from "../../http/departmentAPI"; 
-import CreateDepartmentModal from "../Modals/CreateDepartment"; 
-import EditDepartment from "../Modals/EditDepartment"; 
+import React, { useEffect, useState } from "react";
+import { Table, Button } from "react-bootstrap";
+import { deleteDepartment, getDepartments } from "../../http/departmentAPI";
+import CreateDepartmentModal from "../Modals/CreateDepartment";
+import EditDepartment from "../Modals/EditDepartment";
 
 // Компонент таблицы кафедр 
-const DepartmentTable = () => { 
+const DepartmentTable = () => {
     // Состояние для хранения списка кафедр 
-    const [departments, setDepartments] = useState([]); 
+    const [departments, setDepartments] = useState([]);
     // Состояние для управления модальным окном создания кафедры 
-    const [showDepartmentModal, setShowDepartmentModal] = useState(false); 
+    const [showDepartmentModal, setShowDepartmentModal] = useState(false);
     // Состояние для управления модальным окном редактирования 
-    const [showEditModal, setShowEditModal] = useState(false); 
+    const [showEditModal, setShowEditModal] = useState(false);
     const [selectedDepartment, setSelectedDepartment] = useState(null);
 
     // Функция для получения данных о кафедрах из БД
@@ -42,10 +42,10 @@ const DepartmentTable = () => {
 
     return (
         <>
-            <Button 
-                variant="primary" 
-                onClick={handleShowDepartmentModal} 
-                className="mt-3" 
+            <Button
+                variant="primary"
+                onClick={handleShowDepartmentModal}
+                className="mt-3"
                 style={{ backgroundColor: '#4682B4', borderColor: '#4682B4' }} // Устанавливаем цвет фона и границы
             >
                 Добавить кафедру
@@ -53,7 +53,6 @@ const DepartmentTable = () => {
             <Table striped bordered hover className="mt-3">
                 <thead>
                     <tr>
-                        <th>ID кафедры</th>
                         <th>Название кафедры</th>
                         <th>Действия</th>
                     </tr>
@@ -62,17 +61,16 @@ const DepartmentTable = () => {
                     {/* Отображаем список кафедр */}
                     {departments.map((item, index) => (
                         <tr key={index}>
-                            <td>{item.id}</td>
                             <td>{item.name}</td>
                             <td>
-                                <Button 
+                                <Button
                                     variant="outline-danger" // Удалить
                                     onClick={() => handleDeleteDepartment(item.id)} // Используем новую функцию для удаления
                                     className="me-2" // Добавляем отступ справа
                                 >
                                     Удалить
                                 </Button>
-                                <Button 
+                                <Button
                                     variant="outline-warning" // Редактировать
                                     onClick={() => {
                                         setSelectedDepartment(item);
@@ -86,21 +84,21 @@ const DepartmentTable = () => {
                     ))}
                 </tbody>
             </Table>
-            <CreateDepartmentModal 
-                show={showDepartmentModal} 
+            <CreateDepartmentModal
+                show={showDepartmentModal}
                 onHide={() => {
                     setShowDepartmentModal(false);
                     fetchData();
-                }} 
+                }}
             />
-            <EditDepartment 
-                show={showEditModal} 
+            <EditDepartment
+                show={showEditModal}
                 onHide={() => {
                     setShowEditModal(false);
                     setSelectedDepartment(null);
-                }} 
-                department={selectedDepartment} 
-                onUpdate={fetchData} 
+                }}
+                department={selectedDepartment}
+                onUpdate={fetchData}
             />
         </>
     );

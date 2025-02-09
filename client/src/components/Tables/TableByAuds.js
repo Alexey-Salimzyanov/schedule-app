@@ -96,6 +96,8 @@ const TableByAuds = () => {
 
         for(let i=0;i<schedule.length;i++){
             if(schedule[i].number === nOfPair && schedule[i].auditorium_list.number===aud){
+                //Чтобы не зацикливалось если период равен 0
+                if(schedule[i].period === 0) schedule[i].period = 1
 
                 let currentDate = new Date(startDate.startDate); 
                 currentDate.setDate(startDate.startDate.getDate() + 7 * (week.numberOfWeek - 1) - startDate.startDate.getDay() + daysOfWeek.indexOf(day.dayOfWeek) + 1);
@@ -111,9 +113,10 @@ const TableByAuds = () => {
                 }
             }
         }
-
         for(let i=0;i<scheduleReq.length;i++){
             if(scheduleReq[i].number === nOfPair && scheduleReq[i].auditorium_list.number===aud){
+                     //Чтобы не зацикливалось если период равен 0
+                    if(scheduleReq[i].period === 0) scheduleReq[i].period = 1
 
                     let currentDate = new Date(startDate.startDate); 
                     currentDate.setDate(startDate.startDate.getDate() + 7 * (week.numberOfWeek - 1) - startDate.startDate.getDay() + daysOfWeek.indexOf(day.dayOfWeek) + 1);
@@ -124,10 +127,10 @@ const TableByAuds = () => {
                     for(let j = 0; tempDate <= tempLastDate; j++){
                        if(currentDate.toLocaleDateString()===tempDate.toLocaleDateString()){
                         if(scheduleReq[i].status === "Рассматривается"){
-                            return { text: (scheduleReq[i].discipline_list.short_name + " " + scheduleReq[i].group_list.name), color: "yellow" };
+                            return { text: (scheduleReq[i].discipline_list.short_name + " " + scheduleReq[i].group_list.name), color: "#FFDB8B" };
                         }
                         else if(scheduleReq[i].status === "Одобрена"){
-                            return { text: (scheduleReq[i].discipline_list.short_name + " " + scheduleReq[i].group_list.name), color: "green" };
+                            return { text: (scheduleReq[i].discipline_list.short_name + " " + scheduleReq[i].group_list.name), color: "#BADBAD" };
                         }
                        }
                        tempDate.setDate(tempDate.getDate() + 7 * scheduleReq[i].period);

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 import { deleteAud, getJoinedAuds } from "../../http/audAPI";
 import CreateAudModal from "../Modals/CreateAud";
-import EditAudModal from "../Modals/EditAud"; 
+import EditAudModal from "../Modals/EditAud";
 
 // Компонент таблицы аудиторий
 const AudTable = () => {
@@ -45,10 +45,10 @@ const AudTable = () => {
 
     return (
         <>
-            <Button 
-                variant="primary" 
-                onClick={handleShowAudModal} 
-                className="mt-3" 
+            <Button
+                variant="primary"
+                onClick={handleShowAudModal}
+                className="mt-3"
                 style={{ backgroundColor: '#4682B4', borderColor: '#4682B4' }}
             >
                 Добавить аудиторию
@@ -56,7 +56,7 @@ const AudTable = () => {
             <Table striped bordered hover className="mt-3">
                 <thead>
                     <tr>
-                        <th>ID аудитории</th>
+
                         <th>Номер аудитории</th>
                         <th>Вместимость</th>
                         <th>Тип аудитории</th>
@@ -66,20 +66,19 @@ const AudTable = () => {
                 <tbody>
                     {auditoriums.map((item, index) => (
                         <tr key={index}>
-                            <td>{item.id}</td>
                             <td>{item.number}</td>
                             <td>{item.capacity}</td>
                             <td>{item.type_list && item.type_list.name ? item.type_list.name : 'NULL'}</td>
                             <td>
-                                <Button 
-                                    variant="outline-danger"  
+                                <Button
+                                    variant="outline-danger"
                                     onClick={() => handleDeleteAud(item.id)} // Используем новую функцию для удаления
                                     className="me-2"
                                 >
                                     Удалить
                                 </Button>
-                                <Button 
-                                    variant="outline-warning" 
+                                <Button
+                                    variant="outline-warning"
                                     onClick={() => handleEditClick(item)} // Обработчик для редактирования
                                 >
                                     Редактировать
@@ -91,15 +90,15 @@ const AudTable = () => {
             </Table>
             {/* Модальное окно для создания или редактирования аудитории */}
             {selectedAud ? (
-                <EditAudModal 
-                    show={showAudModal} 
-                    onHide={() => {setShowAudModal(false); setSelectedAud(null); fetchData();}} // Сбрасываем выбранную аудиторию при закрытии
+                <EditAudModal
+                    show={showAudModal}
+                    onHide={() => { setShowAudModal(false); setSelectedAud(null); fetchData(); }} // Сбрасываем выбранную аудиторию при закрытии
                     auditorium={selectedAud} // Передаем выбранную аудиторию для редактирования
                 />
             ) : (
-                <CreateAudModal 
-                    show={showAudModal} 
-                    onHide={() => {setShowAudModal(false); fetchData();}} // Сбрасываем выбранную аудиторию при закрытии
+                <CreateAudModal
+                    show={showAudModal}
+                    onHide={() => { setShowAudModal(false); fetchData(); }} // Сбрасываем выбранную аудиторию при закрытии
                 />
             )}
         </>
