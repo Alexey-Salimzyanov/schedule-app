@@ -16,7 +16,7 @@ const EditGroup = ({ show, onHide, group, onUpdate }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (group) {
-            await updateGroup(group.id, { name: groupName });
+            await updateGroup(group.id, groupName );
             onUpdate(); // Обновляем список групп
             onHide(); // Закрываем модальное окно
         }

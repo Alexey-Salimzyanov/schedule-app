@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { updateAud } from "../../http/audAPI";
+import { getTypes } from "../../http/typeAPI";
 
 const EditAud = ({ show, onHide, auditorium }) => {
     const [number, setNumber] = useState("");
     const [capacity, setCapacity] = useState("");
     const [type, setType] = useState("");
+    const [audTypesList, setAudTypesList] = useState([]);
 
     useEffect(() => {
         if (auditorium) {
@@ -13,6 +15,9 @@ const EditAud = ({ show, onHide, auditorium }) => {
             setCapacity(auditorium.capacity);
             setType(auditorium.type_list ? auditorium.type_list.id : ""); // Предполагается, что тип аудитории имеет id
         }
+        getTypes().then((audTypes) => setAudTypesList(audTypes))
+
+
     }, [auditorium]);
 
     const handleSubmit = async (e) => {
@@ -64,12 +69,13 @@ const EditAud = ({ show, onHide, auditorium }) => {
                         <Form.Control
                             as="select"
                             value={type}
-                            onChange={(e) => setType(e.target.value)} 
+                            onChange={(e) => setType(e.target.value)}
                             required
                         >
                             <option value="">Выберите тип аудитории</option>
-                            <option value="3">Лекционная</option>
-                            <option value="2">Компьютерный класс</option>
+                            {audTypesList.map((audType) => {
+                                return <option value={audType.id}>{audType.name}</option>
+                            })}
                         </Form.Control>
                     </Form.Group>
                     <Button className="mt-3" variant="primary" type="submit">

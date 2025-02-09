@@ -32,7 +32,7 @@ class DepartmentController{
         return res.json({message: "Заявка успешно удалена"});
     }
 
-    // Метод для редактирования кафедры по ID
+    //Метод для редактирования кафедры по ID
     async update(req, res) {
         const { id } = req.params;
         const { name } = req.body; // Убедитесь, что это строка
@@ -63,5 +63,29 @@ class DepartmentController{
             return res.status(500).json({ message: 'Не удалось обновить кафедру. Пожалуйста, попробуйте еще раз.' });
         }
     }
+    // Метод редактирования должности по id
+    // async update(req, res) {
+    //     const { id } = req.params;
+    //     const { name } = req.body;
+
+    //     console.log(id)
+    //     console.log(name.name)
+    //     // if (!id) {
+    //     //     return res.status(400).json({ message: "ID является обязательным параметром" });
+    //     // }
+
+    //     // const department = await DepartmentList.findOne({ where: { id } });
+    //     // if (!department) {
+    //     //     return res.status(404).json({ message: "Кафедра не найдена" });
+    //     // }
+
+    //     // // Обновляем каведру
+    //     // department.name = name;
+
+    //     // await department.save();
+
+    //     // return res.json(department);
+    //     return true
+    // }
 }
 module.exports = new DepartmentController()

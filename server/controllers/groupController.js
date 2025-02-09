@@ -55,37 +55,37 @@ class GroupController {
             return res.status(500).json({ message: "Ошибка при удалении группы" });
         }
     }
-    
+
     // Метод для редактирования группы по id
     async update(req, res) {
-    const { id } = req.params; // Получаем ID группы из параметров запроса
-    const { name } = req.body; // Получаем новое название группы из тела запроса
+        const { id } = req.params; // Получаем ID группы из параметров запроса
+        const { name } = req.body; // Получаем новое название группы из тела запроса
 
-    // Проверяем, что ID и новое название переданы
-    if (!id || !name) {
-        return res.status(400).json({ message: "ID группы и новое название являются обязательными параметрами" });
-    }
-
-    try {
-        // Находим группу по ID
-        const group = await GroupList.findOne({ where: { id } });
-        if (!group) {
-            return res.status(404).json({ message: "Группа не найдена" });
+        // Проверяем, что ID и новое название переданы
+        if (!id || !name) {
+            return res.status(400).json({ message: "ID группы и новое название являются обязательными параметрами" });
         }
-        
-        if (typeof name !== 'string') {
-            return res.status(400).json({ message: "Название группы должно быть строкой" });
-        }
-        
-        // Обновляем название группы
-        group.name = name;
-        await group.save(); // Сохраняем изменения в базе данных
 
-        return res.json({ message: "Группа успешно обновлена", group });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Ошибка при обновлении группы" });
+        try {
+            // Находим группу по ID
+            const group = await GroupList.findOne({ where: { id } });
+            if (!group) {
+                return res.status(404).json({ message: "Группа не найдена" });
+            }
+
+            if (typeof name !== 'string') {
+                return res.status(400).json({ message: "Название группы должно быть строкой" });
+            }
+
+            // Обновляем название группы
+            group.name = name;
+            await group.save(); // Сохраняем изменения в базе данных
+
+            return res.json({ message: "Группа успешно обновлена", group });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Ошибка при обновлении группы" });
+        }
     }
-}
 }
 module.exports = new GroupController();

@@ -48,5 +48,34 @@ class scheduleController{
         await request.destroy();
         return res.json({message: "Заявка успешно удалена"});
     }
+
+    async update(req, res) {
+        const { id } = req.params;
+        const {auditorium, number, teacher, discipline, group, firstDate, period, lastDate} = req.body;
+        console.log(id);
+
+        if (!id) {
+            return res.status(400).json({ message: "ID является обязательным параметром" });
+        }
+        const lesson = await ClassSchedule.findOne({ where: { id } });
+
+
+
+        if (!lesson) {
+            return res.status(404).json({ message: "Объект не найден" });
+        }
+
+        // Обновляем данные о занятии
+        console.log(auditorium, number, teacher, discipline, group, firstDate, period, lastDate);
+        
+        console.log(lesson);
+        lesson.number=number
+        // teacher.surname_N_P = surname_N_P || teacher.surname_N_P;
+        // teacher.positionListId = positionListId || teacher.positionListId;
+        // teacher.departmentListId = departmentListId || teacher.departmentListId;
+
+        await lesson.save(); // Сохраняем изменения в базе данных
+        return res.json(true);
+    }
 }
 module.exports = new scheduleController()

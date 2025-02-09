@@ -45,7 +45,7 @@ const UsersTable = () => {
                             <td>{item.role}</td>
                             <td>{item.teacher_list.surname_N_P}</td>
                             <td>
-                                <Button variant="outline-danger" onClick={async () => { await deleteUser(item.id); fetchData(); }}>Удалить</Button>
+                                <Button variant="outline-danger" className="me-2"  onClick={async () => { await deleteUser(item.id); fetchData(); }}>Удалить</Button>
                                 <Button
                                     variant="outline-warning"
                                     onClick={() => handleShowEditUserModal(item)}

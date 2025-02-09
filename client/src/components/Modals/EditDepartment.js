@@ -14,7 +14,7 @@ const EditDepartment = ({ show, onHide, department, onUpdate }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await updateDepartment(department.id, { name });
+            await updateDepartment(department.id,  name );
             onUpdate(); // Обновляем список кафедр
             onHide(); // Закрываем модальное окно
         } catch (error) {

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { UpdateTeacher } from "../../http/TeacherAPI"; 
-import { getPositions } from "../../http/positionAPI"; 
-import { getDepartments } from "../../http/departmentAPI"; 
+import { UpdateTeacher } from "../../http/TeacherAPI";
+import { getPositions } from "../../http/positionAPI";
+import { getDepartments } from "../../http/departmentAPI";
 
 const EditTeacherModal = ({ show, onHide, teacher }) => {
     const [teacherSurname_N_P, setTeacherSurname_N_P] = useState('');
@@ -40,17 +40,17 @@ const EditTeacherModal = ({ show, onHide, teacher }) => {
                 <Form>
                     <Form.Group className="mb-3">
                         <Form.Label>Фамилия И.О. преподавателя</Form.Label>
-                        <Form.Control 
-                            type="text" 
-                            placeholder="Фамилия И.О." 
-                            value={teacherSurname_N_P} 
-                            onChange={e => setTeacherSurname_N_P(e.target.value)} 
+                        <Form.Control
+                            type="text"
+                            placeholder="Фамилия И.О."
+                            value={teacherSurname_N_P}
+                            onChange={e => setTeacherSurname_N_P(e.target.value)}
                         />
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Кафедра</Form.Label>
-                        <Form.Select 
-                            value={selectedDepartment} 
+                        <Form.Select
+                            value={selectedDepartment}
                             onChange={e => setSelectedDepartment(e.target.value)}
                         >
                             <option value="">Выберите кафедру</option>
@@ -61,8 +61,8 @@ const EditTeacherModal = ({ show, onHide, teacher }) => {
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Должность</Form.Label>
-                        <Form.Select 
-                            value={selectedPosition} 
+                        <Form.Select
+                            value={selectedPosition}
                             onChange={e => setSelectedPosition(e.target.value)}
                         >
                             <option value="">Выберите должность</option>
@@ -70,17 +70,14 @@ const EditTeacherModal = ({ show, onHide, teacher }) => {
                                 <option key={position.id} value={position.id}>{position.short_name}</option>
                             ))}
                         </Form.Select>
+                        <Button className="mt-3" variant="primary" onClick={handleSaveClick}>
+                            Сохранить изменения
+                        </Button>
+
                     </Form.Group>
                 </Form>
             </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={onHide}>
-                    Закрыть
-                </Button>
-                <Button className="mt-3" variant="primary" onClick={handleSaveClick}>
-                    Сохранить изменения
-                </Button>
-            </Modal.Footer>
+
         </Modal>
     );
 };
