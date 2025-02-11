@@ -34,6 +34,24 @@ class UserController {
         const token = generateJwt(user.id, user.login, user.role, user.teacherListId)
         return res.json({ token })
     }
+
+    async create(req, res) {
+        const maxIdResult = await sequelize.query("SELECT MAX(id) FROM user_accs");
+        const maxId = maxIdResult[0][0].max;
+        await sequelize.query(`ALTER SEQUENCE user_accs_id_seq RESTART WITH ${maxId + 1}`);
+        const { login, password, role, teacherListId } = req.body
+        if (!login || !password) {
+            return next(ApiError.badRequest('Неверный email или password'))
+        }
+        const candidate = await UserAcc.findOne({ where: { login } })
+        if (candidate) {
+            return next(ApiError.badRequest('Пользователь с таким email уже существует'))
+        }
+        const hashPassword = await bcrypt.hash(password, 5)
+        const user = await UserAcc.create({ login, password: hashPassword, role, teacherListId })
+        return res.json(user)
+    }
+
     // Метод для входа пользователя
     async login(req, res, next) {
         const { login, password } = req.body
@@ -68,7 +86,7 @@ class UserController {
     async delete(req, res) {
         const { id } = req.params;
         console.log(req);
-        
+
         if (!id) {
             return res.status(400).json({ message: "ID  является обязательным параметром" });
         }
@@ -82,7 +100,7 @@ class UserController {
     // Метод обновления типа по id
     async update(req, res) {
         const { id } = req.params;
-        const {login, password, role} = req.body
+        const { login, password, role } = req.body
 
         const user = await UserAcc.findOne({ where: { id } });
         if (!user) {
@@ -95,7 +113,7 @@ class UserController {
         user.role = role
 
         await user.save(); // Сохраняем изменения
-        return res.json({ message: "Пользователь обновлен успешно"});
+        return res.json({ message: "Пользователь обновлен успешно" });
     }
 
 }

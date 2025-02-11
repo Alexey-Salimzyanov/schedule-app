@@ -61,5 +61,31 @@ class RequestController{
         await request.destroy();
         return res.json({message: "Заявка успешно удалена"});
     }
+    async update(req, res) {
+        const { id } = req.params;
+        const { auditoriumId, number, teacherId, disciplineId, groupId, firstDate, period, lastDate, status } = req.body;
+
+        if (!id) {
+            return res.status(400).json({ message: "ID является обязательным параметром" });
+        }
+        const request = await RequestList.findOne({ where: { id } });
+
+
+        if (!request) {
+            return res.status(404).json({ message: "Объект не найден" });
+        }
+
+        request.number = number
+        request.auditoriumListId = auditoriumId
+        request.groupListId = groupId
+        request.disciplineListId = disciplineId
+        request.teacherListId = teacherId
+        request.firstDate = firstDate
+        request.lastDate = lastDate
+        request.period = period
+        request.status = status
+        await request.save(); // Сохраняем изменения в базе данных
+        return res.json({ message: "Заявка обновлена успешно", request });
+    }
 }
 module.exports = new RequestController()

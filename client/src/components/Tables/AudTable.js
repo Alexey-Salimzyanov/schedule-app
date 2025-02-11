@@ -72,14 +72,14 @@ const AudTable = () => {
                             <td>
                                 <Button
                                     variant="outline-danger"
-                                    onClick={() => handleDeleteAud(item.id)} // Используем новую функцию для удаления
+                                    onClick={() => handleDeleteAud(item.id)} 
                                     className="me-2"
                                 >
                                     Удалить
                                 </Button>
                                 <Button
-                                    variant="outline-warning"
-                                    onClick={() => handleEditClick(item)} // Обработчик для редактирования
+                                    variant="outline-dark"
+                                    onClick={() => handleEditClick(item)}
                                 >
                                     Редактировать
                                 </Button>

@@ -77,7 +77,7 @@ const GroupTable = () => {
                                     Удалить
                                 </Button>
                                 <Button 
-                                    variant="outline-warning" // Используем "warning" для оранжевого цвета
+                                     variant="outline-dark" 
                                     onClick={() => handleShowEditModal(item)} // Открываем модальное окно редактирования
                                 >
                                     Редактировать

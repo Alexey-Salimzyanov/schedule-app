@@ -74,7 +74,7 @@ const TypeTable = () => {
                                     Удалить
                                 </Button>
                                 <Button 
-                                    variant="outline-warning" 
+                                     variant="outline-dark"
                                     onClick={() => handleShowEditTypeModal(item)}
                                 >
                                     Редактировать

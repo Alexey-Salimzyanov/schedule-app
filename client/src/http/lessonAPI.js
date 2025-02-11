@@ -61,8 +61,16 @@ export const deleteLesson = async (id)=>{
 
 // Функция для редактирования урока
 export const updateLesson = async (id, updatedData) => {
-    // Выполнение PUT-запроса к API
+    // Выполнение PUT-запроса к API 
     const { data } = await $host.put(`api/schedule/${id}`, updatedData);
     // Возвращение полученных данных
     return data;
 }
+export const updateRequest = async (id, updatedData) => {
+    // Выполнение PUT-запроса к API 
+    
+    const { data } = await $host.put(`api/request/${id}`, updatedData);
+    // Возвращение полученных данных
+    return data;
+}
+

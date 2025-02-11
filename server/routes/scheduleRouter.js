@@ -5,5 +5,5 @@ const scheduleController = require('../controllers/scheduleController')
 router.post('/', scheduleController.create) // Добавление нового занятия
 router.get('/', scheduleController.getAll) // Получение всех занятий
 router.delete('/:id', scheduleController.delete); // Удаление занятия по ID
-router.put('/:id', scheduleController.update); //Редактирование должности по ID
+router.put('/:id', scheduleController.update); //Редактирование занятия по ID
 module.exports = router

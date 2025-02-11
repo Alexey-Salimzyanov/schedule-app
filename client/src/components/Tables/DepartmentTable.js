@@ -71,7 +71,7 @@ const DepartmentTable = () => {
                                     Удалить
                                 </Button>
                                 <Button
-                                    variant="outline-warning" // Редактировать
+                                     variant="outline-dark"// Редактировать
                                     onClick={() => {
                                         setSelectedDepartment(item);
                                         setShowEditModal(true);

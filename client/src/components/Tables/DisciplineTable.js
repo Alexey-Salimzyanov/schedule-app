@@ -73,7 +73,7 @@ const DisciplineTable = () => {
                                     Удалить
                                 </Button>
                                 <Button 
-                                    variant="outline-warning" // Редактировать
+                                     variant="outline-dark"// Редактировать
                                     onClick={() => {
                                         setSelectedDiscipline(item);
                                         setShowEditModal(true);

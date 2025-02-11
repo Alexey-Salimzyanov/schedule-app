@@ -77,7 +77,7 @@ const PositionTable = () => {
                                     Удалить
                                 </Button>
                                 <Button 
-                                    variant="outline-warning" 
+                                     variant="outline-dark"
                                     onClick={() => handleShowEditPosition(item)} // Открываем модальное окно редактирования
                                 >
                                     Редактировать

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 import { deleteUser, getUsers } from "../../http/userAPI";
 import EditUser from "../Modals/EditUser";
+import CreateUserModal from "../Modals/CreateUser";
 
 // Компонент таблицы пользователей
 const UsersTable = () => {
@@ -19,14 +20,28 @@ const UsersTable = () => {
     useEffect(() => {
         fetchData();
     }, []);
-    
+
     const handleShowEditUserModal = (user) => {
         setSelectedUser(user);
         setShowEditUserModal(true);
     };
+
+    const [showUserModal, setShowUserModal] = useState(null)
+
+    const handleShowUserModal = () => {
+        setShowUserModal(true);
+    };
     return (
         <>
-            <Table striped bordered hover>
+            <Button
+                variant="primary"
+                onClick={handleShowUserModal}
+                className="mt-3"
+                style={{ backgroundColor: '#4682B4', borderColor: '#4682B4' }} 
+            >
+                Добавить пользователя
+            </Button>
+            <Table striped bordered hover className="mt-3">
                 <thead>
                     <tr>
                         <th>Логин</th>
@@ -45,9 +60,9 @@ const UsersTable = () => {
                             <td>{item.role}</td>
                             <td>{item.teacher_list.surname_N_P}</td>
                             <td>
-                                <Button variant="outline-danger" className="me-2"  onClick={async () => { await deleteUser(item.id); fetchData(); }}>Удалить</Button>
+                                <Button variant="outline-danger" className="me-2" onClick={async () => { await deleteUser(item.id); fetchData(); }}>Удалить</Button>
                                 <Button
-                                    variant="outline-warning"
+                                    variant="outline-dark"
                                     onClick={() => handleShowEditUserModal(item)}
                                 >
                                     Редактировать
@@ -58,10 +73,14 @@ const UsersTable = () => {
                 </tbody>
             </Table>
             <EditUser
-                show={showEditUserModal} 
-                onHide={() => { setShowEditUserModal(false); setSelectedUser(null); }} 
-                user={selectedUser} 
+                show={showEditUserModal}
+                onHide={() => { setShowEditUserModal(false); setSelectedUser(null); }}
+                user={selectedUser}
                 fetchData={fetchData} // Передаем функцию обновления данных
+            />
+            <CreateUserModal 
+                show={showUserModal} 
+                onHide={() => { setShowUserModal(false); fetchData(); }}
             />
         </>
     );

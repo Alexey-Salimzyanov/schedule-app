@@ -74,7 +74,7 @@ const TeacherTable = () => {
                                     Удалить
                                 </Button>
                                 <Button
-                                    variant="outline-warning"
+                                     variant="outline-dark"
                                     onClick={() => handleEditTeacher(item)} // Открываем модальное окно редактирования
                                 >
                                     Редактировать

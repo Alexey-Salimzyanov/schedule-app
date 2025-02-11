@@ -7,7 +7,7 @@ import { Button } from "react-bootstrap";
 import { ADMIN_ROUTE, LOGIN_ROUTE, REQUESTS_ROUTE, SCHEDULE_ROUTE} from "../utils/consts";
 import { NavLink } from 'react-router-dom';
 import { observer } from "mobx-react-lite";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 // Компонент NavBar, меняющийся в зависимости от состояния пользователя
 const NavBar = observer(() => {
@@ -17,11 +17,13 @@ const NavBar = observer(() => {
         user.setUser ({});
         user.setIsAuth(0);
     }
+    const location = useLocation();
 
+    const isActive = location.pathname === SCHEDULE_ROUTE
     return (
         <Navbar style={{ backgroundColor: '#4682B4' }} data-bs-theme="dark">
             <Container>
-                <NavLink style={{ color: 'white', fontSize: '20px', textDecoration: 'none' }} to={SCHEDULE_ROUTE}>Главная</NavLink>
+                <NavLink style={{ color: 'white', fontSize: '20px', textDecoration: 'none',  cursor: isActive ? 'default' : 'pointer' }} to={SCHEDULE_ROUTE}>Главная</NavLink>
 
                 {user.isAuth === 0 ?
                     // Если пользователь не авторизован, показать кнопку авторизации

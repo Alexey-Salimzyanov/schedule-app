@@ -8,6 +8,10 @@ export const registration = async (login, password, teacherListId) => {
     localStorage.setItem('token', data.token);
     return jwtDecode(data.token);
 }
+export const createUser = async (login, password, role, teacherListId) => {
+    const { data } = await $host.post('api/user', { login, password, role, teacherListId });
+    return data;
+}
 
 // Функция для входа пользователя
 export const logIn = async (login, password) => {

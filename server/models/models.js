@@ -49,6 +49,8 @@ const ClassSchedule = sequelize.define('class_schedule',{
     firstDate:{type: DataTypes.DATEONLY}, //дата первого занятия
     period:{type: DataTypes.INTEGER}, //периодиность занятия
     lastDate:{type: DataTypes.DATEONLY}, //дата последнего занятия
+    semester:{type: DataTypes.STRING}, // Семестр (осенний либо весенний)
+    year:{type: DataTypes.INTEGER}, // Год
 })
 
 const RequestList = sequelize.define('request_list',{

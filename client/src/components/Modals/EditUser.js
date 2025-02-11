@@ -13,7 +13,6 @@ const EditUser = ({ show, onHide, user, fetchData }) => {
 			setRole(user.role);
 		}
 	}, [user]);
-	console.log(user);
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 

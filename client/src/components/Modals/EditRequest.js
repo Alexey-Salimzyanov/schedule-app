@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { updateLesson } from "../../http/lessonAPI"; // Предполагается, что у вас есть функция для обновления урока
+import { updateRequest } from "../../http/lessonAPI"; 
 import { getDisciplines } from "../../http/disciplineAPI";
 import { getTeachers } from "../../http/TeacherAPI";
 import { getGroups } from "../../http/groupAPI";
 import { getAuds } from "../../http/audAPI";
 
-const EditLessons = ({ show, onHide, lesson }) => {
+const EditRequest = ({ show, onHide, request }) => {
     const [disciplineList, setDisciplineList] = useState([]);
     const [teacherList, setTeacherList] = useState([]);
     const [groupList, setGroupList] = useState([]);
@@ -25,23 +25,30 @@ const EditLessons = ({ show, onHide, lesson }) => {
 
     // Варианты для периода
     const periodOptions = [
-        { label: "разовое занятие", value: 0 },
+        { label: "Разовое занятие", value: 0 },
         { label: "1 неделя", value: 1 },
         { label: "2 недели", value: 2 },
         { label: "4 недели", value: 4 }
     ];
 
+	const statusOptions = [
+        { label: "Рассматривается", value: "Рассматривается" },
+        { label: "Одобрена", value: "Одобрена" },
+        { label: "Отклонена", value: "Отклонена" },
+    ];
+
     useEffect(() => {
-        if (lesson) {
+        if (request) {
             setFormData({
-                auditoriumId: lesson.auditoriumListId || '',
-                number: lesson.number || '',
-                teacherId: lesson.teacherListId || '',
-                disciplineId: lesson.disciplineListId || '',
-                groupId: lesson.groupListId || '',
-                firstDate: lesson.firstDate || '',
-                period: lesson.period || '',
-                lastDate: lesson.lastDate || ''
+                auditoriumId: request.auditoriumListId ,
+                number: request.number ,
+                teacherId: request.teacherListId ,
+                disciplineId: request.disciplineListId ,
+                groupId: request.groupListId ,
+                firstDate: request.firstDate ,
+                period: request.period ,
+                lastDate: request.lastDate ,
+				status: request.status 
             });
         }
 
@@ -50,7 +57,7 @@ const EditLessons = ({ show, onHide, lesson }) => {
         getTeachers().then(data => setTeacherList(data));
         getGroups().then(data => setGroupList(data));
         getAuds().then(data => setAuditoriumList(data));
-    }, [lesson]);
+    }, [request]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -90,7 +97,7 @@ const EditLessons = ({ show, onHide, lesson }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await updateLesson(lesson.id, formData); // Передаем formData с идентификаторами
+        await updateRequest(request.id, formData); // Передаем formData с идентификаторами
         onHide(); // Закрываем модальное окно после успешного обновления
     };
 
@@ -224,6 +231,22 @@ const EditLessons = ({ show, onHide, lesson }) => {
                         </Form.Group>
                     )}
 
+                    <Form.Group controlId="formЫефегы">
+                        <Form.Label>Статус</Form.Label>
+                        <Form.Select
+                            name="status"
+                            value={formData.status}
+                            onChange={handleChange}
+                            required
+                        >
+                            {statusOptions.map(option => (
+                                <option key={option.value} value={option.value}>
+                                    {option.label}
+                                </option>
+                            ))}
+                        </Form.Select>
+                    </Form.Group>
+
                     <Button className="mt-3" variant="primary" type="submit">
                         Сохранить изменения
                     </Button>
@@ -233,4 +256,4 @@ const EditLessons = ({ show, onHide, lesson }) => {
     );
 };
 
-export default EditLessons;
+export default EditRequest;
