@@ -32,3 +32,13 @@ export const CreateAud = async (number, capacity, typeListId)=>{
     // Возвращение полученных данных
     return data
 }
+
+// Функция для обновления аудитории
+export const updateAud = async (auditorium) => {
+    // Выполнение PUT-запроса к API
+    const { data } = await $host.put(`api/auditorium/${auditorium.id}`, auditorium);
+    // Возвращение полученных данных
+    return data;
+}
+
+

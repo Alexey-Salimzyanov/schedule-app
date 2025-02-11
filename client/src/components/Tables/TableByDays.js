@@ -88,6 +88,8 @@ const TableByDays = () => {
         for(let i=0;i<schedule.length;i++){
             if(schedule[i].number ===nOfPair){
                 if(schedule[i].auditorium_list.number===aud.numberOfAud){
+                                    //Чтобы не зацикливалось если период равен 0
+                 if(schedule[i].period === 0) schedule[i].period = 1
                     let currentDate = new Date(startDate.startDate); 
                     currentDate.setDate(startDate.startDate.getDate() + 7 * (week.numberOfWeek - 1) - startDate.startDate.getDay() + dayOfWeek + 1);
                     let tempDate = new Date(schedule[i].firstDate);
@@ -107,6 +109,8 @@ const TableByDays = () => {
         for(let i=0;i<scheduleReq.length;i++){
             if(scheduleReq[i].number === nOfPair){
                 if(scheduleReq[i].auditorium_list.number===aud.numberOfAud){
+                                    //Чтобы не зацикливалось если период равен 0
+                if(scheduleReq[i].period === 0) scheduleReq[i].period = 1
                     let currentDate = new Date(startDate.startDate); 
                     currentDate.setDate(startDate.startDate.getDate() + 7 * (week.numberOfWeek - 1) - startDate.startDate.getDay() + dayOfWeek + 1);
                     let tempDate = new Date(scheduleReq[i].firstDate);
@@ -116,10 +120,10 @@ const TableByDays = () => {
                     for(let j = 0; tempDate <= tempLastDate; j++){
                        if(currentDate.toLocaleDateString()===tempDate.toLocaleDateString()){
                         if(scheduleReq[i].status === "Рассматривается"){
-                            return { text: (scheduleReq[i].discipline_list.short_name + " " + scheduleReq[i].group_list.name), color: "yellow" };
+                            return { text: (scheduleReq[i].discipline_list.short_name + " " + scheduleReq[i].group_list.name), color: "#FFDB8B" };
                         }
                         else if(scheduleReq[i].status === "Одобрена"){
-                            return { text: (scheduleReq[i].discipline_list.short_name + " " + scheduleReq[i].group_list.name), color: "green" };
+                            return { text: (scheduleReq[i].discipline_list.short_name + " " + scheduleReq[i].group_list.name), color: "#BADBAD" };
                         }
                        }
                        tempDate.setDate(tempDate.getDate() + 7 * scheduleReq[i].period);

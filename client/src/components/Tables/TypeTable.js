@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
-import {Table, Button} from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
 import { deleteType, getTypes } from "../../http/typeAPI";
 import CreateAudType from "../Modals/CreateAudType";
+import EditAudType from "../Modals/EditAudType"; 
 
 // Компонент таблицы типов аудиторий
 const TypeTable = () => {
     // Состояние для хранения списка типов аудиторий
     const [types, setTypes] = useState([]);
+    // Состояние для управления модальным окном создания типа аудитории
+    const [showAudTypeModal, setShowAudTypeModal] = useState(false);
+    const [showEditTypeModal, setShowEditTypeModal] = useState(false);
+    const [selectedType, setSelectedType] = useState(null);
 
     // Функция для получения данных о типах аудиторий из БД
     const fetchData = async () => {
@@ -14,12 +19,23 @@ const TypeTable = () => {
         setTypes(typeData);
     };
 
-    // Состояние для управления модальным окном создания типа аудитории
-    const [showAudTypeModal, setShowAudTypeModal] = useState(false);
-
     // Обработчик открытия модального окна создания типа аудитории
     const handleShowAudTypeModal = () => {
         setShowAudTypeModal(true);
+    };
+
+    const handleShowEditTypeModal = (type) => {
+        setSelectedType(type);
+        setShowEditTypeModal(true);
+    };
+
+    // Функция для удаления типа с подтверждением
+    const handleDeleteType = async (id) => {
+        const confirmDelete = window.confirm("Вы уверены, что хотите удалить этот тип аудитории?");
+        if (confirmDelete) {
+            await deleteType(id);
+            fetchData();
+        }
     };
 
     // Используем useEffect для вызова fetchData при монтировании компонента
@@ -29,29 +45,56 @@ const TypeTable = () => {
 
     return (
         <>
-            <Button variant="primary" onClick={handleShowAudTypeModal} className="mt-3">Добавить тип</Button>
+            <Button 
+                variant="primary" 
+                onClick={handleShowAudTypeModal} 
+                className="mt-3" 
+                style={{ backgroundColor: '#4682B4', borderColor: '#4682B4' }} // Устанавливаем цвет фона и границы
+            >
+                Добавить тип
+            </Button>
 
             <Table striped bordered hover className="mt-3">
                 <thead>
                     <tr>
-                        <th>ID типа аудитории</th>
                         <th>Название типа аудитории</th>
-                        <th>Действия</th>
+                        <th>Действия</th> {/* Обновленный заголовок */}
                     </tr>
                 </thead>
                 <tbody>
-                    {/* Отображаем список типов аудиторий */}
                     {types.map((item, index) => (
                         <tr key={index}>
-                            <td>{item.id}</td>
                             <td>{item.name}</td>
-                            <td><Button variant="outline-danger"  onClick={async () => {await deleteType(item.id);  fetchData();}} >Удалить</Button></td>
+                            <td>
+                                <Button 
+                                    variant="outline-danger" 
+                                    onClick={() => handleDeleteType(item.id)} // Используем функцию для удаления с подтверждением
+                                    className="me-2" // Добавляем отступ справа
+                                >
+                                    Удалить
+                                </Button>
+                                <Button 
+                                     variant="outline-dark"
+                                    onClick={() => handleShowEditTypeModal(item)}
+                                >
+                                    Редактировать
+                                </Button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
             </Table>
+
             {/* Модальное окно для создания нового типа аудитории */}
-            <CreateAudType show={showAudTypeModal} onHide={() => {setShowAudTypeModal(false);fetchData()}} />
+            <CreateAudType show={showAudTypeModal} onHide={() => { setShowAudTypeModal(false); fetchData(); }} />
+
+            {/* Модальное окно для редактирования типа аудитории */}
+            <EditAudType 
+                show={showEditTypeModal} 
+                onHide={() => { setShowEditTypeModal(false); setSelectedType(null); }} 
+                type={selectedType} 
+                onUpdate={fetchData} // Передаем функцию обновления данных
+            />
         </>
     );
 };

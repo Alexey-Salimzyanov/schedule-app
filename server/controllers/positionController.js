@@ -28,5 +28,27 @@ class PositionController{
         await request.destroy();
         return res.json({message: "Заявка успешно удалена"});
     }
+
+    // Метод редактирования должности по id
+    async update(req, res) {
+        const { id } = req.params;
+        const { name, short_name } = req.body;
+
+        if (!id) {
+            return res.status(400).json({ message: "ID должности является обязательным параметром" });
+        }
+
+        const position = await PositionList.findOne({ where: { id } });
+        if (!position) {
+            return res.status(404).json({ message: "Должность не найдена" });
+        }
+
+        // Обновляем должность
+        position.name = name;
+        position.short_name = short_name;
+        await position.save();
+
+        return res.json(position);
+    }
 }
 module.exports = new PositionController()

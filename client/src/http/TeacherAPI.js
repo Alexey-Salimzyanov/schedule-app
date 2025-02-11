@@ -24,3 +24,11 @@ export const CreateTeacher = async (surname_N_P, positionListId, departmentListI
     // Возвращение полученных данных
     return data
 }
+
+// Функция для обновления преподавателя
+export const UpdateTeacher = async (id, surname_N_P, positionListId, departmentListId) => {
+    // Выполнение PUT-запроса к API
+    const { data } = await $host.put(`api/teacher/${id}`, { surname_N_P, positionListId, departmentListId });
+    // Возвращение полученных данных
+    return data;
+}

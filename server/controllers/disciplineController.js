@@ -29,5 +29,27 @@ class  DisciplineController{
         await request.destroy();
         return res.json({message: "Заявка успешно удалена"});
     }
+
+    // Метод редактирования дисциплины по ID
+    async update(req, res) {
+        const { id } = req.params;
+        const { name, short_name } = req.body;
+
+        if (!id) {
+            return res.status(400).json({ message: "ID дисциплины является обязательным параметром" });
+        }
+
+        const discipline = await DisciplineList.findOne({ where: { id } });
+        if (!discipline) {
+            return res.status(404).json({ message: "Дисциплина не найдена" });
+        }
+
+        // Обновляем дисциплину
+        discipline.name = name;
+        discipline.short_name = short_name;
+        await discipline.save();
+
+        return res.json(discipline);
+    }
 }
 module.exports = new  DisciplineController()

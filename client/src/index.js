@@ -29,6 +29,6 @@ root.render(
     startDate: new StartDateStore(), // Состояние даты начала семестра
     table: new ActiveTableStore(), // Состояние активной таблицы
   }}>
-    <App /> 
+    <App />
   </Context.Provider>
 );

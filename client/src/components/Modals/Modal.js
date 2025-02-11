@@ -46,6 +46,8 @@ const EditCellModal = ({
     const aud = auds.find((aud) => aud.number === audNumber);
     return aud ? aud.id : null;
   };
+
+
   // Используем useEffect для получения данных из БД при монтировании компонента
   useEffect(() => {
     getDisciplines().then((data) => setDisciplines(data));
@@ -61,8 +63,14 @@ const EditCellModal = ({
 
   // Функция проверки коллизий в расписании
   const checkCollisions = (aud, nOfPair, reqFd, reqPer, reqLd) => {
+
+
     //проверяем все записи из расписания
     for (let i = 0; i < schedule.length; i++) {
+
+      if (schedule[i].period === 0)
+        schedule[i].period = 1
+
       let LessonFDate = new Date(schedule[i].firstDate);
       let ReqFDate = new Date(reqFd);
 
@@ -80,8 +88,11 @@ const EditCellModal = ({
         let lessonCheckDate = new Date(LessonFDate);
         // Пока дата проверки не превысит последнюю дату занятия
         while (reqCheckDate <= ReqLDate) {
+
           while (lessonCheckDate <= LessonLDate) {
             // Если дата проверки совпадает с датой запроса
+            console.log('pamagigti');
+
             if (reqCheckDate.getTime() === lessonCheckDate.getTime()) {
               return true; // Найдено пересечение
             }
@@ -96,47 +107,18 @@ const EditCellModal = ({
         }
       }
     }
-    for (let i = 0; i < schedule.length; i++) {
-      let LessonFDate = new Date(schedule[i].firstDate);
-      let ReqFDate = new Date(reqFd);
 
-      let LessonLDate = new Date(schedule[i].lastDate);
-      let ReqLDate = new Date(reqLd);
 
-      //если совпадает аудитория, номер пары и день недели
-      if (
-        schedule[i].auditorium_list.number === aud &&
-        schedule[i].number === nOfPair &&
-        LessonFDate.getDay() === ReqFDate.getDay()
-      ) {
-        // Создаем новую дату для проверки пересечений
-        let reqCheckDate = new Date(ReqFDate);
-        let lessonCheckDate = new Date(LessonFDate);
-        // Пока дата проверки не превысит последнюю дату занятия
-        while (reqCheckDate <= ReqLDate) {
-          while (lessonCheckDate <= LessonLDate) {
-            // Если дата проверки совпадает с датой запроса
-            if (reqCheckDate.getTime() === lessonCheckDate.getTime()) {
-              return true; // Найдено пересечение
-            }
-            // Переходим к следующей дате занятия, добавляя период
-            lessonCheckDate.setDate(
-              lessonCheckDate.getDate() + 7 * schedule[i].period
-            );
-          }
-          lessonCheckDate = new Date(LessonFDate);
-          // Переходим к следующей дате занятия, добавляя период
-          reqCheckDate.setDate(reqCheckDate.getDate() + 7 * reqPer);
-        }
-      }
-    }
     for (let i = 0; i < scheduleReq.length; i++) {
+
+      if (scheduleReq[i].period === 0)
+        scheduleReq[i].period = 1
+
       let LessonFDate = new Date(scheduleReq[i].firstDate);
       let ReqFDate = new Date(reqFd);
 
       let LessonLDate = new Date(scheduleReq[i].lastDate);
       let ReqLDate = new Date(reqLd);
-
       //если совпадает аудитория, номер пары и день недели
       if (
         scheduleReq[i].auditorium_list.number === aud &&
@@ -148,8 +130,12 @@ const EditCellModal = ({
         let reqCheckDate = new Date(ReqFDate);
         let lessonCheckDate = new Date(LessonFDate);
         // Пока дата проверки не превысит последнюю дату занятия
+
         while (reqCheckDate <= ReqLDate) {
           while (lessonCheckDate <= LessonLDate) {
+
+            console.log('asdsadasdfdsgvdfg');
+
             // Если дата проверки совпадает с датой запроса
             if (reqCheckDate.getTime() === lessonCheckDate.getTime()) {
               return true; // Найдено пересечение
@@ -179,14 +165,15 @@ const EditCellModal = ({
   let currentDate = new Date(startDate.startDate);
   currentDate.setDate(
     startDate.startDate.getDate() +
-      7 * (week.numberOfWeek - 1) -
-      startDate.startDate.getDay() +
-      daysOfWeek.indexOf(selectedCell?.day ?? day.dayOfWeek) +
-      1
+    7 * (week.numberOfWeek - 1) -
+    startDate.startDate.getDay() +
+    daysOfWeek.indexOf(selectedCell?.day ?? day.dayOfWeek) +
+    1
   );
   // Обработчик нажатия кнопки "Добавить"
   const handleRequest = async () => {
-    if (
+    console.log(lastDate)
+    if (period == 0 ? false :
       checkCollisions(
         selectedCell?.aud || aud.numberOfAud,
         Number(selectedCell?.lesson[0]),
@@ -198,6 +185,8 @@ const EditCellModal = ({
       alert("Ошибка, найдена коллизия");
       handleClose();
     } else {
+      console.log('Я ПРОШЕЛ ПРОВЕРКУ КОЛЛИЗИЙ');
+
       const number = Number(selectedCell?.lesson[0]);
       const submissionDate = new Date().toISOString().split("T")[0];
       const firstDate = currentDate.toISOString().split("T")[0];
@@ -228,6 +217,7 @@ const EditCellModal = ({
       setSelectedDiscipline(null);
       updateSchedule();
       handleClose();
+      console.log('Я ЗАТМРЯЛ');
     }
   };
   const allValuesSelected =
@@ -337,11 +327,11 @@ const EditCellModal = ({
                     </Form.Label>
                     <Form.Select
                       value={period}
-                      onChange={(e) => setPeriod(e.target.value)}
+                      onChange={(e) => { setPeriod(e.target.value); if (e.target.value === '0') setLastDate(currentDate) }}
                     >
                       <option value="">Выберите период</option>
-                      {[1, 2, 4].map((num) => (
-                        <option value={num}>{num}</option>
+                      {[{ val: 0, title: 'Разовое занятие' }, { val: 1, title: '1 неделя' }, { val: 2, title: '2 недели' }, { val: 4, title: '4 недели' }].map((elem) => (
+                        <option value={elem.val}>{elem.title}</option>
                       ))}
                     </Form.Select>
                   </div>
@@ -354,8 +344,8 @@ const EditCellModal = ({
                     </Form.Label>
                     <DatePicker
                       selected={lastDate}
-                      onChange={(date) => setLastDate(date)}
-                      dateFormat="yyyy-MM-dd"
+                      onChange={(date) => { setLastDate(date) }}
+                      dateFormat="dd.MM.yyyy"
                       locale="ru"
                       placeholderText="Выберите дату"
                       className={`form-control custom-datepicker`}
@@ -393,13 +383,13 @@ const EditCellModal = ({
                         Выберите дисциплину
                       </option>
                       {[...new Map(schedule
-                            .filter((lesson) => (lesson.teacherListId == selectedTeacher))
-                            .map((lesson) => [lesson.discipline_list.short_name, lesson])
-                        ).values()].map((lesson) => (
-                            <option key={lesson.id} value={disciplines.find(el => (el.short_name === lesson.discipline_list.short_name)).id}>
-                            {lesson.discipline_list.short_name}
-                            </option>
-                        ))}
+                        .filter((lesson) => (lesson.teacherListId == selectedTeacher))
+                        .map((lesson) => [lesson.discipline_list.short_name, lesson])
+                      ).values()].map((lesson) => (
+                        <option key={lesson.id} value={disciplines.find(el => (el.short_name === lesson.discipline_list.short_name)).id}>
+                          {lesson.discipline_list.short_name}
+                        </option>
+                      ))}
                     </Form.Select>
                   </div>
                   <div style={{ textAlign: "center" }}>
