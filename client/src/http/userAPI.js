@@ -39,15 +39,12 @@ export const check = async () => {
         localStorage.setItem('token', data.token);
         return jwtDecode(data.token);
     } catch (e) {
-        // Обработка возможных ошибок
     }
 }
 
 // Функция для обновления пользователя
-export const updateUser = async (id, login, password, role ) => {
-    console.log('befort');
-    
+export const updateUser = async (id, login, password, role ) => { 
     const { data } = await $host.put(`api/user/${id}`, {login, password, role} );
-        console.log('asd');
+
     return data;
 }

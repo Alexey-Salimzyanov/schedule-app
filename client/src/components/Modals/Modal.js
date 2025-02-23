@@ -1,11 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { Context } from "../..";
-import {
-  createReqLesson,
-  getLessons,
-  getReqLessons,
-} from "../../http/lessonAPI";
+import { createReqLesson, getLessons, getReqLessons } from "../../http/lessonAPI";
 import { getDisciplines } from "../../http/disciplineAPI";
 import { getTeachers } from "../../http/TeacherAPI";
 import { getGroups } from "../../http/groupAPI";
@@ -91,8 +87,6 @@ const EditCellModal = ({
 
           while (lessonCheckDate <= LessonLDate) {
             // Если дата проверки совпадает с датой запроса
-            console.log('pamagigti');
-
             if (reqCheckDate.getTime() === lessonCheckDate.getTime()) {
               return true; // Найдено пересечение
             }
@@ -133,9 +127,6 @@ const EditCellModal = ({
 
         while (reqCheckDate <= ReqLDate) {
           while (lessonCheckDate <= LessonLDate) {
-
-            console.log('asdsadasdfdsgvdfg');
-
             // Если дата проверки совпадает с датой запроса
             if (reqCheckDate.getTime() === lessonCheckDate.getTime()) {
               return true; // Найдено пересечение
@@ -172,7 +163,6 @@ const EditCellModal = ({
   );
   // Обработчик нажатия кнопки "Добавить"
   const handleRequest = async () => {
-    console.log(lastDate)
     if (period == 0 ? false :
       checkCollisions(
         selectedCell?.aud || aud.numberOfAud,
@@ -185,8 +175,6 @@ const EditCellModal = ({
       alert("Ошибка, найдена коллизия");
       handleClose();
     } else {
-      console.log('Я ПРОШЕЛ ПРОВЕРКУ КОЛЛИЗИЙ');
-
       const number = Number(selectedCell?.lesson[0]);
       const submissionDate = new Date().toISOString().split("T")[0];
       const firstDate = currentDate.toISOString().split("T")[0];
@@ -217,7 +205,6 @@ const EditCellModal = ({
       setSelectedDiscipline(null);
       updateSchedule();
       handleClose();
-      console.log('Я ЗАТМРЯЛ');
     }
   };
   const allValuesSelected =
@@ -297,116 +284,122 @@ const EditCellModal = ({
             ) : (
               user.isAuth !== 0 && (
                 <>
-                  <div style={{ textAlign: "center" }}>
-                    <Form.Label style={{ fontWeight: "bold" }} className="mt-1">
-                      Номер недели
-                    </Form.Label>
-                    <Form.Control type="text" value={week.numberOfWeek} />
-                  </div>
-                  <div style={{ textAlign: "center" }}>
-                    <Form.Label style={{ fontWeight: "bold" }} className="mt-1">
-                      День недели
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={selectedCell?.day || day.dayOfWeek}
-                    />
-                  </div>
-                  <div style={{ textAlign: "center" }}>
-                    <Form.Label style={{ fontWeight: "bold" }} className="mt-1">
-                      Дата
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={currentDate.toLocaleDateString()}
-                    />
-                  </div>
-                  <div style={{ textAlign: "center" }}>
-                    <Form.Label style={{ fontWeight: "bold" }} className="mt-1">
-                      Приодичность занятия
-                    </Form.Label>
-                    <Form.Select
-                      value={period}
-                      onChange={(e) => { setPeriod(e.target.value); if (e.target.value === '0') setLastDate(currentDate) }}
-                    >
-                      <option value="">Выберите период</option>
-                      {[{ val: 0, title: 'Разовое занятие' }, { val: 1, title: '1 неделя' }, { val: 2, title: '2 недели' }, { val: 4, title: '4 недели' }].map((elem) => (
-                        <option value={elem.val}>{elem.title}</option>
-                      ))}
-                    </Form.Select>
-                  </div>
-                  <div style={{ textAlign: "center" }}>
-                    <Form.Label
-                      style={{ fontWeight: "bold", display: "block" }}
-                      className="mt-1"
-                    >
-                      Дата последнего занятия
-                    </Form.Label>
-                    <DatePicker
-                      selected={lastDate}
-                      onChange={(date) => { setLastDate(date) }}
-                      dateFormat="dd.MM.yyyy"
-                      locale="ru"
-                      placeholderText="Выберите дату"
-                      className={`form-control custom-datepicker`}
-                    />
-                  </div>
-                  <div style={{ textAlign: "center" }}>
-                    <Form.Label style={{ fontWeight: "bold" }} className="mt-1">
-                      Преподаватель
-                    </Form.Label>
-                    <Form.Select
-                      value={selectedTeacher}
-                      onChange={(e) => {
-                        setSelectedTeacher(e.target.value)
-                      }}
-                    >
-                      <option value="" disabled selected hidden>
-                        Выберите преподавателя
-                      </option>
-                      {teachers.map((teacher) => (
-                        <option value={teacher.id}>
-                          {teacher.surname_N_P}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </div>
-                  <div style={{ textAlign: "center" }}>
-                    <Form.Label style={{ fontWeight: "bold" }} className="mt-1">
-                      Дисциплина
-                    </Form.Label>
-                    <Form.Select
-                      value={selectedDiscipline}
-                      onChange={(e) => setSelectedDiscipline(e.target.value)}
-                    >
-                      <option value="" disabled selected hidden>
-                        Выберите дисциплину
-                      </option>
-                      {[...new Map(schedule
-                        .filter((lesson) => (lesson.teacherListId == selectedTeacher))
-                        .map((lesson) => [lesson.discipline_list.short_name, lesson])
-                      ).values()].map((lesson) => (
-                        <option key={lesson.id} value={disciplines.find(el => (el.short_name === lesson.discipline_list.short_name)).id}>
-                          {lesson.discipline_list.short_name}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </div>
-                  <div style={{ textAlign: "center" }}>
-                    <Form.Label style={{ fontWeight: "bold" }} className="mt-1">
-                      Группа
-                    </Form.Label>
-                    <Form.Select
-                      value={selectedGroup}
-                      onChange={(e) => setSelectedGroup(e.target.value)}
-                    >
-                      <option value="" disabled selected hidden>
-                        Выберите группу
-                      </option>
-                      {groups.map((group) => (
-                        <option value={group.id}>{group.name}</option>
-                      ))}
-                    </Form.Select>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div>
+                      <div style={{ textAlign: "center" }}>
+                        <Form.Label style={{ fontWeight: "bold" }} className="mt-1">
+                          Номер недели
+                        </Form.Label>
+                        <Form.Control type="text" value={week.numberOfWeek} />
+                      </div>
+                      <div style={{ textAlign: "center" }}>
+                        <Form.Label style={{ fontWeight: "bold" }} className="mt-1">
+                          День недели
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          value={selectedCell?.day || day.dayOfWeek}
+                        />
+                      </div>
+                      <div style={{ textAlign: "center" }}>
+                        <Form.Label style={{ fontWeight: "bold" }} className="mt-1">
+                          Дата
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          value={currentDate.toLocaleDateString()}
+                        />
+                      </div>
+                      <div style={{ textAlign: "center" }}>
+                        <Form.Label style={{ fontWeight: "bold" }} className="mt-1">
+                          Приодичность занятия
+                        </Form.Label>
+                        <Form.Select
+                          value={period}
+                          onChange={(e) => { setPeriod(e.target.value); if (e.target.value === '0') setLastDate(currentDate) }}
+                        >
+                          <option value="">Выберите период</option>
+                          {[{ val: 0, title: 'Разовое занятие' }, { val: 1, title: '1 неделя' }, { val: 2, title: '2 недели' }, { val: 4, title: '4 недели' }].map((elem) => (
+                            <option value={elem.val}>{elem.title}</option>
+                          ))}
+                        </Form.Select>
+                      </div>
+                    </div>
+                    <div>
+                      <div style={{ textAlign: "center" }}>
+                        <Form.Label
+                          style={{ fontWeight: "bold", display: "block" }}
+                          className="mt-1"
+                        >
+                          Дата последнего занятия
+                        </Form.Label>
+                        <DatePicker
+                          selected={lastDate}
+                          onChange={(date) => { setLastDate(date) }}
+                          dateFormat="dd.MM.yyyy"
+                          locale="ru"
+                          placeholderText="Выберите дату"
+                          className={`form-control custom-datepicker`}
+                        />
+                      </div>
+                      <div style={{ textAlign: "center" }}>
+                        <Form.Label style={{ fontWeight: "bold" }} className="mt-1">
+                          Преподаватель
+                        </Form.Label>
+                        <Form.Select
+                          value={selectedTeacher}
+                          onChange={(e) => {
+                            setSelectedTeacher(e.target.value)
+                          }}
+                        >
+                          <option value="" disabled selected hidden>
+                            Выберите преподавателя
+                          </option>
+                          {teachers.map((teacher) => (
+                            <option value={teacher.id}>
+                              {teacher.surname_N_P}
+                            </option>
+                          ))}
+                        </Form.Select>
+                      </div>
+                      <div style={{ textAlign: "center" }}>
+                        <Form.Label style={{ fontWeight: "bold" }} className="mt-1">
+                          Дисциплина
+                        </Form.Label>
+                        <Form.Select
+                          value={selectedDiscipline}
+                          onChange={(e) => setSelectedDiscipline(e.target.value)}
+                        >
+                          <option value="" disabled selected hidden>
+                            Выберите дисциплину
+                          </option>
+                          {[...new Map(schedule
+                            .filter((lesson) => (lesson.teacherListId == selectedTeacher))
+                            .map((lesson) => [lesson.discipline_list.short_name, lesson])
+                          ).values()].map((lesson) => (
+                            <option key={lesson.id} value={disciplines.find(el => (el.short_name === lesson.discipline_list.short_name)).id}>
+                              {lesson.discipline_list.short_name}
+                            </option>
+                          ))}
+                        </Form.Select>
+                      </div>
+                      <div style={{ textAlign: "center" }}>
+                        <Form.Label style={{ fontWeight: "bold" }} className="mt-1">
+                          Группа
+                        </Form.Label>
+                        <Form.Select
+                          value={selectedGroup}
+                          onChange={(e) => setSelectedGroup(e.target.value)}
+                        >
+                          <option value="" disabled selected hidden>
+                            Выберите группу
+                          </option>
+                          {groups.map((group) => (
+                            <option value={group.id}>{group.name}</option>
+                          ))}
+                        </Form.Select>
+                      </div>
+                    </div>
                   </div>
                   <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
