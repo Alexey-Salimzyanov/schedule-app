@@ -1,4 +1,3 @@
-// Импортируем sequelize и DataTypes
 const sequelize = require('../db')
 const {DataTypes} = require('sequelize')
 
@@ -60,7 +59,7 @@ const RequestList = sequelize.define('request_list',{
     firstDate:{type: DataTypes.DATEONLY}, //дата первого занятия
     period:{type: DataTypes.INTEGER}, //периодиность занятия
     lastDate:{type: DataTypes.DATEONLY}, //дата последнего занятия
-    status:{type: DataTypes.STRING},
+    status:{type: DataTypes.STRING}, //статус заявки
 })
 
 const TypeList = sequelize.define('type_list',{

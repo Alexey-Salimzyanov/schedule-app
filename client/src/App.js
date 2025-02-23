@@ -1,4 +1,3 @@
-// Импорт необходимых библиотек и компонентов
 import React, { useContext, useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./components/AppRouter";
@@ -10,15 +9,12 @@ import { Context } from ".";
 
 // Создание компонента App с использованием observer для отслеживания изменений состояния
 const App = observer(() => {
-  // Использование контекста для доступа к пользовательскому состоянию
   const { user } = useContext(Context);
-  // Создание состояния для отслеживания загрузки
   const [loading, setLoading] = useState(true);
 
   // Использование useEffect для выполнения проверки при монтировании компонента
   useEffect(() => {
     check().then(data => {
-      // Если данные получены, устанавливаем пользователя и его роль
       if (data) {
         user.setUser (true);
         let role;
@@ -29,7 +25,7 @@ const App = observer(() => {
         }
         user.setIsAuth(role);
       }
-    }).finally(() => setLoading(false)); // Завершение загрузки
+    }).finally(() => setLoading(false));
   }, [user]);
 
   // Если идет загрузка, отображаем спиннер
@@ -55,4 +51,4 @@ const App = observer(() => {
   );
 });
 
-export default App; // Экспорт компонента App
+export default App; 
