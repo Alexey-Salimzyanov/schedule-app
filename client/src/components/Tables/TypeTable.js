@@ -54,11 +54,11 @@ const TypeTable = () => {
                 Добавить тип
             </Button>
 
-            <Table striped bordered hover className="mt-3">
-                <thead>
+            <Table striped bordered hover className="mt-3" style={{ position: 'relative' }}>
+                <thead style={{ position: 'sticky', top: -1, backgroundColor: 'white', zIndex: 1 }}>
                     <tr>
                         <th>Название типа аудитории</th>
-                        <th>Действия</th> {/* Обновленный заголовок */}
+                        <th colSpan={2}>Действия</th> {/* Обновленный заголовок */}
                     </tr>
                 </thead>
                 <tbody>
@@ -73,6 +73,8 @@ const TypeTable = () => {
                                 >
                                     Удалить
                                 </Button>
+                                </td>
+                                <td>
                                 <Button 
                                      variant="outline-dark"
                                     onClick={() => handleShowEditTypeModal(item)}

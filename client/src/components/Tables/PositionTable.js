@@ -55,12 +55,12 @@ const PositionTable = () => {
                 Добавить должность
             </Button>
 
-            <Table striped bordered hover className="mt-3">
-                <thead>
+            <Table striped bordered hover className="mt-3" style={{ position: 'relative' }}>
+                <thead style={{ position: 'sticky', top: -1, backgroundColor: 'white', zIndex: 1 }}>
                     <tr>
                         <th>Название должности</th>
                         <th>Краткое название должности</th>
-                        <th>Действия</th>
+                        <th colSpan={2}>Действия</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,6 +76,8 @@ const PositionTable = () => {
                                 >
                                     Удалить
                                 </Button>
+                                </td>
+                                <td>
                                 <Button 
                                      variant="outline-dark"
                                     onClick={() => handleShowEditPosition(item)} // Открываем модальное окно редактирования

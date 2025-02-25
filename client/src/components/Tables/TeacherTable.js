@@ -46,13 +46,13 @@ const TeacherTable = () => {
                 Добавить преподавателя
             </Button>
 
-            <Table striped bordered hover className="mt-3">
-                <thead>
+            <Table striped bordered hover className="mt-3" style={{ position: 'relative' }}>
+                <thead style={{ position: 'sticky', top: -1, backgroundColor: 'white', zIndex: 1 }}>
                     <tr>
                         <th>Фамилия И.О.</th>
                         <th>Кафедра</th>
                         <th>Должность</th>
-                        <th>Действия</th>
+                        <th colSpan={2}>Действия</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,6 +73,8 @@ const TeacherTable = () => {
                                 >
                                     Удалить
                                 </Button>
+                                </td>
+                                <td>
                                 <Button
                                      variant="outline-dark"
                                     onClick={() => handleEditTeacher(item)} // Открываем модальное окно редактирования

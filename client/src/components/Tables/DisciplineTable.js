@@ -50,12 +50,12 @@ const DisciplineTable = () => {
             >
                 Добавить дисциплину
             </Button>
-            <Table striped bordered hover className="mt-3">
-                <thead>
+            <Table striped bordered hover className="mt-3" style={{ position: 'relative' }}>
+                <thead style={{ position: 'sticky', top: -1, backgroundColor: 'white', zIndex: 1 }}>
                     <tr>
                         <th>Название дисциплины</th>
                         <th>Краткое название дисциплины</th>
-                        <th>Действия</th>
+                        <th colSpan={2}>Действия</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,6 +72,8 @@ const DisciplineTable = () => {
                                 >
                                     Удалить
                                 </Button>
+                                </td>
+                                <td>
                                 <Button 
                                      variant="outline-dark"// Редактировать
                                     onClick={() => {

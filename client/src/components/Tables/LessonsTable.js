@@ -57,8 +57,8 @@ const LessonsTable = () => {
             >
                 Добавить занятие
             </Button>
-            <Table striped bordered hover className="mt-3">
-                <thead>
+            <Table striped bordered hover className="mt-3" style={{ position: 'relative' }}>
+                <thead style={{ position: 'sticky', top: -1, backgroundColor: 'white', zIndex: 1 }}>
                     <tr>
                         <th>№ аудитории</th>
                         <th>№ пары</th>
@@ -70,7 +70,7 @@ const LessonsTable = () => {
                         <th>Дата последнего занятия</th>
                         <th>Год</th>
                         <th>Семестр</th>
-                        <th>Действия</th>
+                        <th colSpan={2}>Действия</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -93,6 +93,8 @@ const LessonsTable = () => {
                                 >
                                     Удалить
                                 </Button>
+                            </td>
+                            <td>  
                                 <Button 
                                     variant="outline-dark"
                                     onClick={() => handleEditClick(item)} // Обработчик для редактирования

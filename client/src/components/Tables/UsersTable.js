@@ -41,14 +41,14 @@ const UsersTable = () => {
             >
                 Добавить пользователя
             </Button>
-            <Table striped bordered hover className="mt-3">
-                <thead>
+            <Table striped bordered hover className="mt-3" style={{ position: 'relative' }}>
+                <thead style={{ position: 'sticky', top: -1, backgroundColor: 'white', zIndex: 1 }}>
                     <tr>
                         <th>Логин</th>
                         <th>Пароль</th>
                         <th>Роль</th>
                         <th>Преподаватель</th>
-                        <th>Действия</th>
+                        <th colSpan={2}>Действия</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,6 +61,8 @@ const UsersTable = () => {
                             <td>{item.teacher_list.surname_N_P}</td>
                             <td>
                                 <Button variant="outline-danger" className="me-2" onClick={async () => { await deleteUser(item.id); fetchData(); }}>Удалить</Button>
+                                </td>
+                                <td>
                                 <Button
                                     variant="outline-dark"
                                     onClick={() => handleShowEditUserModal(item)}
