@@ -199,7 +199,7 @@ const SideBar = observer(() => {
                             <Button variant="" style={{ outline: '1px solid #000' }}>{aud.numberOfAud}</Button>
                             <Dropdown.Toggle split variant="secondary" id="dropdown-custom-2" style={{ outline: '1px solid #000' }} />
                             <Dropdown.Menu className="super-colors" style={{ maxHeight: '200px', overflowY: 'auto' }}>
-                                {auditoriums.map((NumberOfAud, index) => (
+                                {auditoriums.map((NumberOfAud, index ) => (
                                     <Dropdown.Item key={index} onClick={() => aud.setNumberOfAud(NumberOfAud)}>
                                         {NumberOfAud}
                                     </Dropdown.Item>
