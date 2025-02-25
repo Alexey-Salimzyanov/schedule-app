@@ -1,4 +1,3 @@
-// Импорт необходимых библиотек и компонентов
 import React, { useContext } from "react";
 import { Col, Container, Row, Button } from "react-bootstrap";
 import GeneralTable from "../components/Tables/GeneralTable";

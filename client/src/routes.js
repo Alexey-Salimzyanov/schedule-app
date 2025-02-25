@@ -1,17 +1,21 @@
-// Импорт страниц приложения
 import AdminPage from "./pages/AdminPage";
 import MyRequests from "./pages/MyRequests";
 import Schedule from "./pages/Schedule";
+import Info from "./pages/InfoPage";
 import Auth from "./pages/Auth";
 
-// Импорт констант маршрутов
-import { ADMIN_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, REQUESTS_ROUTE, SCHEDULE_ROUTE} from "./utils/consts";
+import { ADMIN_ROUTE, INFO_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, REQUESTS_ROUTE, SCHEDULE_ROUTE} from "./utils/consts";
+
 
 // Определение публичных маршрутов, доступных всем пользователям
 export const publicRoutes = [
     {
         path: SCHEDULE_ROUTE, // Маршрут к странице расписания
         Component: Schedule // Компонент страницы расписания
+    },
+    {
+        path: INFO_ROUTE, // Маршрут к странице расписания
+        Component: Info // Компонент страницы расписания
     },
     {
         path: LOGIN_ROUTE, // Маршрут к странице входа

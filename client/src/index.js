@@ -1,9 +1,6 @@
-// Импорт необходимых библиотек и компонентов
 import React, { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-
-// Импорт хранилищ состояний
 import UserStore from './store/UserStore';
 import ScheduleViewStore from './store/ScheduleViewStore';
 import DayOfWeekStore from './store/DayOfWeekStore';
@@ -12,7 +9,6 @@ import NumberOfAudStore from './store/NumburOfAudStore';
 import StartDateStore from './store/StartDateStore';
 import ActiveTableStore from './store/ActiveTableStore';
 
-// Создание контекста для передачи состояний в компоненты
 export const Context = createContext(null)
 
 // Получение корневого элемента для рендеринга

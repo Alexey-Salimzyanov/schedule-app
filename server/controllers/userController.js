@@ -1,4 +1,3 @@
-// Импортируем необходимые модули и модели
 const ApiError = require('../error/ApiError')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -34,7 +33,7 @@ class UserController {
         const token = generateJwt(user.id, user.login, user.role, user.teacherListId)
         return res.json({ token })
     }
-
+    // Метод для создания пользователя
     async create(req, res) {
         const maxIdResult = await sequelize.query("SELECT MAX(id) FROM user_accs");
         const maxId = maxIdResult[0][0].max;

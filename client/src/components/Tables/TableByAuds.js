@@ -10,13 +10,12 @@ import EditCellModal from "../Modals/Modal";
 const TableByAuds = () => {
     // Списки для номеров занятий и дней недели
     const lessons = ['1 пара', '2 пара', '3 пара', '4 пара', '5 пара', '6 пара', '7 пара'];
-    const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];    
-    // Получаем необходимые данные из контекста
+    const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']; 
+
     const {day} = useContext(Context);
     const {week} = useContext(Context);
     const {startDate} = useContext(Context);
 
-    // Создаем необходимые состояния
     const [show, setShow] = useState(false);
     const [selectedCell, setSelectedCell] = useState(null);
     const [auditoriums, setAuditoriums] = useState([]);
@@ -41,7 +40,7 @@ const TableByAuds = () => {
         setSchedule(scheduleData); 
         setScheduleReq(scheduleDataReq); 
     };
-    // Используем useEffect для вызова fetchData при монтировании компонента
+
     useEffect(() => {
         fetchData();
     }, [week.numberOfWeek, day.dayOfWeek]);

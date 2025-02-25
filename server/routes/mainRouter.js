@@ -1,6 +1,4 @@
-// Импортируем модуль Router из express
 const Router = require('express')
-// Создаем новый экземпляр Router
 const router = new Router()
 
 // Импортируем роутеры для различных частей приложения

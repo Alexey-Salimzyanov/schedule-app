@@ -1,10 +1,9 @@
 // Определяем класс ApiError, который наследуется от встроенного класса Error
 class ApiError extends Error {
-    // Конструктор принимает статус ошибки и сообщение об ошибке
     constructor(status, message){
-        super(); // Вызываем конструктор родительского класса
-        this.status = status // Сохраняем статус ошибки
-        this.message = message // Сохраняем сообщение об ошибке
+        super(); 
+        this.status = status 
+        this.message = message 
     }
     // Статический метод для создания ошибки с статусом 404 (Не найдено)
     static badRequest(message){
