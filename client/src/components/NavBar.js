@@ -26,7 +26,7 @@ const NavBar = observer(() => {
                     <NavLink
                         to={SCHEDULE_ROUTE}
                         style={{
-                            color: location.pathname === SCHEDULE_ROUTE ? '#a8a8a8' : 'white',
+                            color: 'white',
                             marginRight: '10px',
                             textDecoration: 'none',
                             pointerEvents: location.pathname === SCHEDULE_ROUTE ? 'none' : 'auto',
@@ -34,39 +34,26 @@ const NavBar = observer(() => {
                     >
                         Главная
                     </NavLink>
-                    <span style={{ color: 'white', marginRight: '10px' }}>/</span>
-                    <NavLink
-                        to={INFO_ROUTE}
-                        style={{
-                            color: location.pathname === INFO_ROUTE ? '#a8a8a8': 'white',
-                            textDecoration: 'none',
-                            pointerEvents: location.pathname === INFO_ROUTE ? 'none' : 'auto',
-                        }}
-                    >
-                        Справка
-                    </NavLink>
                 </div>
-                {/* <NavLink style={{ color: 'white', marginRight: '10px', fontSize: '20px', textDecoration: 'none', cursor: isActive ? 'default' : 'pointer' }} to={SCHEDULE_ROUTE}>Главная</NavLink>
-                    <NavLink style={{ color: 'white', fontSize: '20px', textDecoration: 'none', cursor: isActive ? 'default' : 'pointer' }} to={INFO_ROUTE}>Справка</NavLink> */}
-
-
-
 
                 {user.isAuth === 0 ?
                     // Если пользователь не авторизован, показать кнопку авторизации
                     <Nav className="ml-auto">
-                        <Button variant={"outline-light"} onClick={() => { navigate(LOGIN_ROUTE) }}>Авторизация</Button>
+                        <Button variant={"outline-light"} onClick={() => { navigate(INFO_ROUTE) }}>Справка</Button>
+                        <Button variant={"outline-light"} style={{ marginLeft: '0.5rem' }} onClick={() => { navigate(LOGIN_ROUTE) }}>Авторизация</Button>
                     </Nav>
                     :
                     user.isAuth === 1 ?
                         // Если пользователь авторизован, показать кнопки "Мои заявки" и "Выйти"
                         <Nav className="ml-auto">
+                            <Button variant={"outline-light"} onClick={() => { navigate(INFO_ROUTE) }}>Справка</Button>
                             <Button variant={"outline-light"} style={{ marginLeft: '0.5rem' }} onClick={() => navigate(REQUESTS_ROUTE)}>Мои заявки</Button>
                             <Button variant={"outline-light"} style={{ marginLeft: '0.5rem' }} onClick={() => logOut()}>Выйти</Button>
                         </Nav>
                         :
                         // Если пользователь - админ, показать дополнительные кнопки
                         <Nav className="ml-auto">
+                            <Button variant={"outline-light"} onClick={() => { navigate(INFO_ROUTE) }}>Справка</Button>
                             <Button variant={"outline-light"} style={{ marginLeft: '0.5rem' }} onClick={() => navigate(REQUESTS_ROUTE)}>Мои заявки</Button>
                             <Button variant={"outline-light"} style={{ marginLeft: '0.5rem' }} onClick={() => navigate(ADMIN_ROUTE)}>Панель админа</Button>
                             <Button variant={"outline-light"} style={{ marginLeft: '0.5rem' }} onClick={() => logOut()}>Выйти</Button>

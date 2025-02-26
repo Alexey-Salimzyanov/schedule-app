@@ -13,7 +13,7 @@ const CreateUserModal = ({ show, onHide }) => {
 	const [teachers, setTeachers] = useState([]);
 	const [selectedTeacher, setSelectedTeacher] = useState(null);
 	useEffect(() => {
-		getTeachers().then(data => setTeachers(data));
+		getTeachers().then(data => setTeachers(data.sort((a,b)=> a.surname_N_P.localeCompare(b.surname_N_P))));
 	}, []);
 
 	const handleAddClick = async () => {

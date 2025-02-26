@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Col, Row } from "react-bootstrap";
+import React, { useContext, useState } from "react";
+import { Button, Col, Row } from "react-bootstrap";
 import TableBar from "../components/TableBar";
 import { Context } from "../index";
 import RequestTable from "../components/Tables/RequestTable";
@@ -13,6 +13,7 @@ import TeacherTable from "../components/Tables/TeacherTable";
 import AudTable from "../components/Tables/AudTable";
 import LessonsTable from "../components/Tables/LessonsTable";
 import UsersTable from "../components/Tables/UsersTable";
+import SetStartDateModal from "../components/Modals/SetStartDate";
 
 // Создание компонента AdminPage с использованием observer для отслеживания изменений состояния
 const AdminPage = observer(() => {
@@ -55,13 +56,22 @@ const AdminPage = observer(() => {
         default:
             currentTable = <RequestTable />;
     }
+    const [showModal, setShowModal] = useState(false);
 
+    // Обработчик открытия модального окна
+    const handleShowModal = () => {
+        setShowModal(true);
+    };
+    const onHide = () => {
+        setShowModal(false)
+    }
     // Возвращение разметки компонента
     return (
         <>
             <Row className="mt-3" style={{ paddingLeft: '15px' }}>
                 <Col md={2}>
-                    <TableBar />
+                    <Button style={{ backgroundColor: '#4682B4', borderColor: '#4682B4', width: '100%' }} onClick={handleShowModal} className="mt-3">Установить дату начала семестра</Button>
+                    <TableBar  />
                 </Col>
                 <Col md={10} style={{ overflowX: 'auto', maxHeight: '80vh', position: 'relative' }}>
                     <div style={{ overflow: 'auto', maxHeight: '100%' }}>
@@ -69,6 +79,7 @@ const AdminPage = observer(() => {
                     </div>
                 </Col>
             </Row>
+            <SetStartDateModal show={showModal} onHide={onHide}/>
         </>
     );
 });

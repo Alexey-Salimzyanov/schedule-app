@@ -217,7 +217,7 @@ const EditCellModal = ({
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Просмотр ячейки</Modal.Title>
+        <Modal.Title>{ user.isAuth == 0 || getSelectedSchedule()?  'Просмотр ячейки' : 'Редактирование ячейки'}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>

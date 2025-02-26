@@ -54,7 +54,7 @@ const RequestTable = ({ extraActions = false }) => {
             >
                 Добавить заявку
             </Button>
-            <Table striped bordered hover className="mt-3" style={{ position: 'relative' }}>
+            <Table responsive striped bordered hover className="mt-3" style={{ position: 'relative' }}>
                 <thead style={{ position: 'sticky', top: -1, backgroundColor: 'white', zIndex: 1 }}>
                     <tr>
                         <th>№ заявки</th>

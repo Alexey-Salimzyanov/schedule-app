@@ -32,10 +32,10 @@ const CreateReqModal = ({show, onHide}) => {
 
     // Используем useEffect для получения данных из БД при монтировании компонента
     useEffect(() => {
-        getGroups().then(data => setGroups(data));
-        getDisciplines().then(data => setDisciplines(data));
-        getTeachers().then(data => setTeachers(data));
-        getAuds().then(data => setAuditoriums(data));
+        getGroups().then(data => setGroups(data.sort((a, b) => a.name.localeCompare(b.name))));
+        getDisciplines().then(data => setDisciplines(data.sort((a,b)  =>  a.name.localeCompare(b.name))));
+        getTeachers().then(data => setTeachers(data.sort((a,b)  =>  a.surname_N_P.localeCompare(b.surname_N_P))));
+        getAuds().then(data => setAuditoriums(data.sort((a,b)  =>  a.number.localeCompare(b.number))));
     }, []);
 
     // Обработчик нажатия кнопки "Добавить"
@@ -87,10 +87,10 @@ const CreateReqModal = ({show, onHide}) => {
                     <Form.Group className="mb-3">
                         <Form.Label style={{fontWeight: "bold" }} className="mt-1">Приодичность занятия</Form.Label>
                         <Form.Select value={period} onChange={e => setPeriod(e.target.value)}>
-                            <option value="">Выберите период</option>
-                            {[1, 2, 4].map(num => (
-                                <option value={num}>{num}</option>
-                            ))}
+                        <option value="">Выберите период</option>
+                          {[{ val: 0, title: 'Разовое занятие' }, { val: 1, title: '1 неделя' }, { val: 2, title: '2 недели' }, { val: 4, title: '4 недели' }].map((elem) => (
+                            <option value={elem.val}>{elem.title}</option>
+                          ))}
                         </Form.Select>
                     </Form.Group>
                     <Form.Group className="mb-3">
@@ -146,7 +146,7 @@ const CreateReqModal = ({show, onHide}) => {
             <Button 
                     variant="primary" 
                     onClick={handleAddClick} 
-                    style={{ backgroundColor: '#4682B4', borderColor: '#4682B4' }} // Устанавливаем цвет фона кнопки
+                    style={{ backgroundColor: '#4682B4', borderColor: '#4682B4' }} 
                 >
                     Добавить
                 </Button>

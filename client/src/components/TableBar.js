@@ -13,7 +13,7 @@ const TableBar = observer(() => {
 
     // Возвращаем разметку списка
     return (
-        <ListGroup as="ul">
+        <ListGroup className='mt-3' as="ul">
             <ListGroup.Item 
                 as="li" 
                 active={table.activeTable === 'Заявки'} 
