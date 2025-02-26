@@ -40,15 +40,15 @@ const GroupTable = () => {
 
     return (
         <>
-            <Button
+            <Button 
                 variant="primary"
                 onClick={handleShowGroupModal}
                 className="mt-3"
-                style={{ backgroundColor: '#4682B4', borderColor: '#4682B4' }}
+                style={{ backgroundColor: '#4682B4', borderColor: '#4682B4'}}
             >
                 Добавить группу
             </Button>
-            <Table responsive striped bordered hover className="mt-3" style={{ position: 'relative' }}>
+            <Table striped bordered hover className="mt-3" style={{ position: 'relative' }}>
                 <thead style={{ position: 'sticky', top: -1, backgroundColor: 'white', zIndex: 1 }}>
                     <tr>
                         <th>Название группы</th>

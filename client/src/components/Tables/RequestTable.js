@@ -50,11 +50,11 @@ const RequestTable = ({ extraActions = false }) => {
                 variant="primary"
                 onClick={handleShowRequestModal}
                 className="mt-3"
-                style={{ backgroundColor: '#4682B4', borderColor: '#4682B4' }} // Изменение фона и цвета границы
+                style={{ backgroundColor: '#4682B4', borderColor: '#4682B4', position: 'initial' }} // Изменение фона и цвета границы
             >
                 Добавить заявку
             </Button>
-            <Table responsive striped bordered hover className="mt-3" style={{ position: 'relative' }}>
+            <Table striped bordered hover className="mt-3" style={{ position: 'relative' }}>
                 <thead style={{ position: 'sticky', top: -1, backgroundColor: 'white', zIndex: 1 }}>
                     <tr>
                         <th>№ заявки</th>

@@ -50,7 +50,7 @@ const DepartmentTable = () => {
             >
                 Добавить кафедру
             </Button>
-            <Table responsive striped bordered hover className="mt-3" style={{ position: 'relative' }}>
+            <Table striped bordered hover className="mt-3" style={{ position: 'relative' }}>
                 <thead style={{ position: 'sticky', top: -1, backgroundColor: 'white', zIndex: 1 }}>
                     <tr>
                         <th>Название кафедры</th>

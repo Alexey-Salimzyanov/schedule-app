@@ -46,7 +46,7 @@ const TeacherTable = () => {
                 Добавить преподавателя
             </Button>
 
-            <Table responsive striped bordered hover className="mt-3" style={{ position: 'relative' }}>
+            <Table striped bordered hover className="mt-3" style={{ position: 'relative' }}>
                 <thead style={{ position: 'sticky', top: -1, backgroundColor: 'white', zIndex: 1 }}>
                     <tr>
                         <th>Фамилия И.О.</th>
