@@ -12,6 +12,7 @@ const teacherRouter = require('./teacherRouter')
 const disciplineRouter = require('./disciplineRouter')
 const groupRouter = require('./groupRouter')
 const requestRouter = require('./requestRouter')
+const initRouter = require('./initRouter')
 
 // Используем роутеры для обработки запросов к определенным путям
 router.use('/department', departmentRouter)
@@ -24,6 +25,7 @@ router.use('/teacher',teacherRouter)
 router.use('/discipline',disciplineRouter)
 router.use('/group',groupRouter)
 router.use('/request',requestRouter)
+router.use('/init',initRouter)
 
 // Экспортируем роутер
 module.exports = router

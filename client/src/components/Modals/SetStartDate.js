@@ -5,6 +5,7 @@ import ru from 'date-fns/locale/ru';
 import "react-datepicker/dist/react-datepicker.css";
 import { Context } from '../..';
 import { observer } from 'mobx-react-lite';
+import { updateInit } from '../../http/initAPI';
 
 registerLocale('ru', ru);
 
@@ -20,7 +21,7 @@ const SetStartDateModal = observer(({ show, onHide }) => {
 
     // Обработчик нажатия кнопки "Добавить"
     const handleAddClick = async () => {
-			currentStartDate.setstartDate(startDate)
+            updateInit(1, startDate)
             onHide();
     };
 
