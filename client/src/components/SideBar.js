@@ -6,6 +6,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { getAuds } from "../http/audAPI";
+import { getInit } from "../http/initAPI";
 
 // Компонент боковой панели
 const SideBar = observer(() => {
@@ -14,24 +15,33 @@ const SideBar = observer(() => {
     const { day } = useContext(Context);
     const { week } = useContext(Context);
     const { aud } = useContext(Context);
-    const { startDate } = useContext(Context);
 
     const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
     const weeks = Array.from({ length: 18 }, (_, i) => i + 1);
 
     // Получение списка аудиторий
     const [auditoriums, setAuditoriums] = useState([]);
+    const [DBstartDate, setStartDate] = useState(null)
+    
     useEffect(() => {
         const fetchData = async () => {
             const data = await getAuds();
             setAuditoriums(data.map(aud => aud.number));
+
+            const response = await getInit(1);
+            const startDateFromDB = response.startDate;
+            setStartDate(startDateFromDB)   
         };
         fetchData();
     }, []);
 
+    
+    // Вычисление текущей даты на основе даты начала семетра и номера недели
+    let startDate = new Date(DBstartDate);
     // Вычисление текущей даты
-    let currentDate = new Date(startDate.startDate);
-    currentDate.setDate(startDate.startDate.getDate() + 7 * (week.numberOfWeek - 1) - startDate.startDate.getDay() + daysOfWeek.indexOf(day.dayOfWeek) + 1);
+
+    let currentDate = new Date(startDate);
+    currentDate.setDate(startDate.getDate() + 7 * (week.numberOfWeek - 1) - startDate.getDay() + daysOfWeek.indexOf(day.dayOfWeek) + 1);
 
     // Обработчик изменения представления
     const handleChange = (event) => {

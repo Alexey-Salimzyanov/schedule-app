@@ -1,7 +1,7 @@
 import { $host } from "./hosts";
 
 // Функция для получения списка типов
-export const getInit= async (id) => {
+export const getInit = async (id) => {
     const { data } = await $host.get(`api/init/${id}`);
     return data;
 }

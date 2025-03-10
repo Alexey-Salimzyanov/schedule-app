@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Col, Container, Row, Button } from "react-bootstrap";
 import GeneralTable from "../components/Tables/GeneralTable";
 import SideBar from "../components/SideBar";
@@ -6,6 +6,7 @@ import TableByDays from "../components/Tables/TableByDays";
 import TableByAuds from "../components/Tables/TableByAuds";
 import { Context } from "..";
 import { observer } from "mobx-react-lite";
+import { getInit } from "../http/initAPI";
 // Создание компонента Schedule с использованием observer для отслеживания изменений состояния
 const Schedule = observer(() => {
     // Использование контекста для доступа к состояниям
@@ -13,13 +14,26 @@ const Schedule = observer(() => {
     const { aud } = useContext(Context);
     const { week } = useContext(Context);
     const { day } = useContext(Context);
-    const { startDate } = useContext(Context);
     // Массив дней недели
     const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
-    // Вычисление текущей даты на основе даты начала семетра и номера недели
-    let currentDate = new Date(startDate.startDate);
-    currentDate.setDate(startDate.startDate.getDate() + 7 * (week.numberOfWeek - 1) - startDate.startDate.getDay() + daysOfWeek.indexOf(day.dayOfWeek) + 1);
 
+    const [DBstartDate, setStartDate] = useState(null)
+
+    
+    const fetchData = async () => {
+        const response = await getInit(1);
+        const startDateFromDB = response.startDate;
+        setStartDate(startDateFromDB)    
+    }
+
+    useEffect( ()=>{
+        fetchData()
+    },[])
+    // Вычисление текущей даты на основе даты начала семетра и номера недели
+    let startDate = new Date(DBstartDate);
+    let currentDate = new Date(startDate);
+    currentDate.setDate(startDate.getDate() + 7 * (week.numberOfWeek - 1) - startDate.getDay() + daysOfWeek.indexOf(day.dayOfWeek) + 1);
+    
     // Определение текущей таблицы расписания в зависимости от выбранного представления
     let scheduleTable;
     switch (view.scheduleView) {

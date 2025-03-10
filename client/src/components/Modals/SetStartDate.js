@@ -3,21 +3,29 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import DatePicker, { registerLocale } from "react-datepicker";
 import ru from 'date-fns/locale/ru';
 import "react-datepicker/dist/react-datepicker.css";
-import { Context } from '../..';
 import { observer } from 'mobx-react-lite';
-import { updateInit } from '../../http/initAPI';
+import { getInit, updateInit } from '../../http/initAPI';
 
 registerLocale('ru', ru);
 
 // Компонент модального окна для создания урока
 const SetStartDateModal = observer(({ show, onHide }) => {
-
-	const {startDate: currentStartDate} = useContext(Context);
-	console.log(currentStartDate);
 	
     // Создаем необходимые состояния
-    const [startDate, setStartDate] = useState(currentStartDate.startDate);
+    const [DBstartDate, setStartDate] = useState(null);
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await getInit(1);
+            const startDateFromDB = response.startDate;
+            setStartDate(startDateFromDB)   
+        };
+        fetchData();
+    }, []);
 
+    
+    // Вычисление текущей даты на основе даты начала семетра и номера недели
+    let startDate = new Date(DBstartDate);
 
     // Обработчик нажатия кнопки "Добавить"
     const handleAddClick = async () => {
