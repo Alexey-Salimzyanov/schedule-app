@@ -40,7 +40,7 @@ const CreateReqModal = ({show, onHide}) => {
 
     // Обработчик нажатия кнопки "Добавить"
     const handleAddClick = async () => {
-        if (selectedGroup && selectedDiscipline && selectedTeacher && selectedAuditorium && numOfLesson && firstDate && lastDate && period) {
+        if (selectedGroup && selectedDiscipline && selectedTeacher && selectedAuditorium && numOfLesson && isDateValid(firstDate) && isDateValid(lastDate) && period) {
             const submissionDate = new Date().toISOString().split('T')[0];
             const status = "Рассматривается";
             await createReqLesson(Number(numOfLesson),submissionDate,firstDate,Number(period),lastDate,status,selectedTeacher,selectedDiscipline,selectedGroup,selectedAuditorium);

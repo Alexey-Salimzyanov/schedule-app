@@ -65,6 +65,17 @@ class TeacherController{
         await teacher.save(); // Сохраняем изменения в базе данных
         return res.json(teacher);
     }
+
+      // Метод для получения всех преподавателей при регистрации
+      async getTeachers(req, res) {
+        try {
+            const teachers = await teacherList.findAll(); 
+            return res.json(teachers); // Возвращаем список преподавателей в формате JSON
+        } catch (error) {
+            console.error("Ошибка при получении преподавателей:", error);
+            return res.status(500).json({ message: "Ошибка сервера" });
+        }
+        }
 }
 
 module.exports = new TeacherController()

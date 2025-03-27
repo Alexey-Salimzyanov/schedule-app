@@ -39,7 +39,7 @@ const CreateLessonModal = ({ show, onHide }) => {
 
     // Обработчик нажатия кнопки "Добавить"
     const handleAddClick = async () => {
-        if (selectedGroup && selectedDiscipline && selectedTeacher && selectedAuditorium && numOfLesson && firstDate && lastDate && period) {
+        if (selectedGroup && selectedDiscipline && selectedTeacher && selectedAuditorium && numOfLesson && isDateValid(firstDate) && isDateValid(lastDate) && period) {
             await createLesson(Number(numOfLesson), firstDate, Number(period), lastDate, selectedTeacher, selectedDiscipline, selectedGroup, selectedAuditorium);
             onHide();
         }

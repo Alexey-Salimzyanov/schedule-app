@@ -48,3 +48,20 @@ export const updateUser = async (id, login, password, role ) => {
 
     return data;
 }
+
+// Функция для получения информации о текущем пользователе 
+export const getCurrentUser  = async () => {
+    const { data } = await $authHost.get('api/user/current'); 
+    return data;
+}
+
+// Функция для проверки старого пароля при изменении пароля
+export const verifyOldPassword = async (userId, oldPassword) => {
+    try {
+        const { data } = await $authHost.post(`api/user/verifyOldPassword`, { userId, oldPassword });
+        return data.isValid; 
+    } catch (error) {
+        console.error("Ошибка при проверке старого пароля:", error);
+        return false; 
+    }
+}

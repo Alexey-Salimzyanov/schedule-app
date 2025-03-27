@@ -1,8 +1,8 @@
-const ApiError = require('../error/ApiError')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const { UserAcc, TeacherList } = require('../models/models')
-const sequelize = require('../db')
+const ApiError = require('../error/ApiError');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { UserAcc, TeacherList } = require('../models/models');
+const sequelize = require('../db');
 
 // Функция для генерации JWT
 const generateJwt = (id, login, role, teacherListId) => {
@@ -10,28 +10,26 @@ const generateJwt = (id, login, role, teacherListId) => {
         { id, login, role, teacherListId },
         process.env.SECRET_KEY,
         { expiresIn: '24h' }
-    )
+    );
 }
+
 // Определяем класс UserController
 class UserController {
+
     // Метод для регистрации пользователя
     async registration(req, res, next) {
-        const maxIdResult = await sequelize.query("SELECT MAX(id) FROM user_accs");
-        const maxId = maxIdResult[0][0].max;
-        await sequelize.query(`ALTER SEQUENCE user_accs_id_seq RESTART WITH ${maxId + 1}`);
-        const { login, password, role } = req.body
+        const { login, password, teacherListId } = req.body; // Получаем teacherListId из запроса
         if (!login || !password) {
-            return next(ApiError.badRequest('Неверный email или password'))
+            return next(ApiError.badRequest('Неверный email или password'));
         }
-        const candidate = await UserAcc.findOne({ where: { login } })
+        const candidate = await UserAcc.findOne({ where: { login } });
         if (candidate) {
-            return next(ApiError.badRequest('Пользователь с таким email уже существует'))
+            return next(ApiError.badRequest('Пользователь с таким email уже существует'));
         }
-        const hashPassword = await bcrypt.hash(password, 5)
-        let teacherListId = 1;
-        const user = await UserAcc.create({ login, password: hashPassword, role, teacherListId })
-        const token = generateJwt(user.id, user.login, user.role, user.teacherListId)
-        return res.json({ token })
+        const hashPassword = await bcrypt.hash(password, 5);
+        const user = await UserAcc.create({ login, password: hashPassword, role: 'USER', teacherListId }); // Сохраняем teacherListId
+        const token = generateJwt(user.id, user.login, user.role, user.teacherListId);
+        return res.json({ token });
     }
     // Метод для создания пользователя
     async create(req, res) {
@@ -111,9 +109,47 @@ class UserController {
         user.password = hashPassword
         user.role = role
 
-        await user.save(); // Сохраняем изменения
+        await user.save(); 
         return res.json({ message: "Пользователь обновлен успешно" });
     }
 
+    // Метод для получения текущего пользователя
+    async getCurrentUser (req, res) {
+        const userId = req.user.id; // Получаем ID пользователя из объекта req.user, который был установлен в middleware
+        const user = await UserAcc.findOne({ where: { id: userId } }); // Находим пользователя в базе данных
+        if (!user) {
+            return res.status(404).json({ message: "Пользователь не найден" });
+        }
+
+        const teacher = await TeacherList.findOne({ where: { id: user.teacherListId } }); // Находим преподавателя по teacherListId
+
+        // Возвращаем данные о пользователе и преподавателе
+        return res.json({
+            id: user.id,
+            login: user.login,
+            role: user.role,
+            teacherListId: user.teacherListId,
+            teacher: teacher // Добавляем данные о преподавателе
+        });
+    }
+
+    // Метод для проверки старого пароля
+    async verifyOldPassword(req, res, next) {
+        const { userId, oldPassword } = req.body; // Получаем userId и oldPassword из запроса
+
+        // Находим пользователя по ID
+        const user = await UserAcc.findOne({ where: { id: userId } });
+        if (!user) {
+            return res.status(404).json({ message: "Пользователь не найден" });
+        }
+
+        // Сравниваем старый пароль с хранимым паролем
+        const isValid = bcrypt.compareSync(oldPassword, user.password);
+        if (!isValid) {
+            return res.status(401).json({ isValid: false }); // Пароль неверен
+        }
+
+        return res.json({ isValid: true }); // Пароль верен
+    }
 }
 module.exports = new UserController()

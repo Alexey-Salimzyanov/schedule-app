@@ -17,6 +17,10 @@ const SetStartDateModal = observer(({ show, onHide }) => {
     // Создаем необходимые состояния
     const [startDate, setStartDate] = useState(currentStartDate.startDate);
 
+    // Используем useEffect для установки начальной даты при монтировании
+    useEffect(() => {
+        setStartDate(currentStartDate.startDate);
+    }, [currentStartDate.startDate]);
 
     // Обработчик нажатия кнопки "Добавить"
     const handleAddClick = async () => {

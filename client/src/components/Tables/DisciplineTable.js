@@ -50,18 +50,20 @@ const DisciplineTable = () => {
             >
                 Добавить дисциплину
             </Button>
-            <Table striped bordered hover className="mt-3" style={{ position: 'relative' }}>
-                <thead style={{ position: 'sticky', top: -1, backgroundColor: 'white', zIndex: 1 }}>
+            <Table striped bordered hover className="mt-3">
+                <thead>
                     <tr>
+                        <th>ID дисциплины</th>
                         <th>Название дисциплины</th>
                         <th>Краткое название дисциплины</th>
-                        <th colSpan={2}>Действия</th>
+                        <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>
                     {/* Отображаем список дисциплин */}
                     {disciplines.map((item, index) => (
                         <tr key={index}>
+                            <td>{item.id}</td>
                             <td>{item.name}</td>
                             <td>{item.short_name}</td>
                             <td>
@@ -72,10 +74,10 @@ const DisciplineTable = () => {
                                 >
                                     Удалить
                                 </Button>
-                                </td>
-                                <td>
+                            </td>
+                            <td>
                                 <Button 
-                                     variant="outline-dark"// Редактировать
+                                    variant="outline-dark" // Редактировать
                                     onClick={() => {
                                         setSelectedDiscipline(item);
                                         setShowEditModal(true);

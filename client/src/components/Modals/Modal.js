@@ -163,8 +163,10 @@ const EditCellModal = ({
   );
   // Обработчик нажатия кнопки "Добавить"
   const handleRequest = async () => {
-    if (period == 0 ? false :
-      checkCollisions(
+    if (
+        !isDateValid(lastDate) || // Используем isDateValid
+        period === 0 ? false :
+        checkCollisions(
         selectedCell?.aud || aud.numberOfAud,
         Number(selectedCell?.lesson[0]),
         currentDate.toISOString().split("T")[0],
@@ -217,7 +219,7 @@ const EditCellModal = ({
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>{ user.isAuth == 0 || getSelectedSchedule()?  'Просмотр ячейки' : 'Редактирование ячейки'}</Modal.Title>
+        <Modal.Title>{ user.isAuth === 0 || getSelectedSchedule()?  'Просмотр ячейки' : 'Редактирование ячейки'}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -374,7 +376,7 @@ const EditCellModal = ({
                             Выберите дисциплину
                           </option>
                           {[...new Map(schedule
-                            .filter((lesson) => (lesson.teacherListId == selectedTeacher))
+                            .filter((lesson) => (lesson.teacherListId === selectedTeacher))
                             .map((lesson) => [lesson.discipline_list.short_name, lesson])
                           ).values()].map((lesson) => (
                             <option key={lesson.id} value={disciplines.find(el => (el.short_name === lesson.discipline_list.short_name)).id}>
