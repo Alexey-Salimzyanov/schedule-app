@@ -9,6 +9,7 @@ import { getAuds } from "../../http/audAPI";
 import DatePicker, { registerLocale } from "react-datepicker";
 import ru from "date-fns/locale/ru";
 import "react-datepicker/dist/react-datepicker.css";
+import { getInit } from "../../http/initAPI";
 
 registerLocale("ru", ru);
 
@@ -22,7 +23,6 @@ const EditCellModal = ({
   // Получаем необходимые данные из контекста
   const { day } = useContext(Context);
   const { week } = useContext(Context);
-  const { startDate } = useContext(Context);
   const { aud } = useContext(Context);
   const { user } = useContext(Context);
   // Создаем необходимые состояния
@@ -43,7 +43,16 @@ const EditCellModal = ({
     return aud ? aud.id : null;
   };
 
+    const [DBstartDate, setStartDate] = useState(null)
+    // Функция для получения данных о уроках из БД
+    const fetchData = async () => {
+         const response = await getInit(1);
+         const startDateFromDB = response.startDate;
+         setStartDate(startDateFromDB)   
+    };
 
+
+  let startDate = new Date(DBstartDate);
   // Используем useEffect для получения данных из БД при монтировании компонента
   useEffect(() => {
     getDisciplines().then((data) => setDisciplines(data));
@@ -51,6 +60,7 @@ const EditCellModal = ({
     getGroups().then((data) => setGroups(data));
     getLessons().then((data) => setSchedule(data));
     getReqLessons().then((data) => setScheduleReq(data));
+    fetchData();
   }, []);
   // Проверка даты на валидность
   const isDateValid = (date) => {
@@ -153,11 +163,11 @@ const EditCellModal = ({
     "Пятница",
     "Суббота",
   ];
-  let currentDate = new Date(startDate.startDate);
+  let currentDate = new Date(startDate);
   currentDate.setDate(
-    startDate.startDate.getDate() +
+    startDate.getDate() +
     7 * (week.numberOfWeek - 1) -
-    startDate.startDate.getDay() +
+    startDate.getDay() +
     daysOfWeek.indexOf(selectedCell?.day ?? day.dayOfWeek) +
     1
   );

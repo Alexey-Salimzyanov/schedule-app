@@ -4,6 +4,7 @@ import '../../styles/Table.css';
 import { Context } from "../.."; 
 import { getLessons, getReqLessons } from "../../http/lessonAPI";
 import EditCellModal from "../Modals/Modal";
+import { getInit } from "../../http/initAPI";
 
 // Компонент таблицы по дням
 const TableByDays = () => {
@@ -13,13 +14,12 @@ const TableByDays = () => {
     // Получаем необходимые данные из контекста 
     const {aud} = useContext(Context);
     const {week} = useContext(Context);
-    const {startDate} = useContext(Context);
      // Создаем необходимые состояния  
     const [show, setShow] = useState(false);
     const [selectedCell, setSelectedCell] = useState(null);
     const [schedule, setSchedule] = useState([]); 
     const [scheduleReq, setScheduleReq] = useState([]); 
-
+    const [DBstartDate, setStartDate] = useState(null)
     // Обработчик закрытия модального окна
     const handleClose = () => setShow(false);
     // Обработчик открытия модального окна  
@@ -27,17 +27,24 @@ const TableByDays = () => {
         setSelectedCell({ day, lesson });
         setShow(true);
     };
+
+
+
     // Функция получения данных из бд
     const fetchData = async () => {
         const scheduleData = await getLessons();
         const scheduleDataReq = await getReqLessons();
         setSchedule(scheduleData); 
         setScheduleReq(scheduleDataReq); 
+        const response = await getInit(1);
+        const startDateFromDB = response.startDate;
+        setStartDate(startDateFromDB)   
     };
     // Используем useEffect для вызова fetchData при монтировании компонента
     useEffect(() => {
         fetchData();
     }, []);
+    let startDate = new Date(DBstartDate);
     // Функция для получения выбранного расписания
     const getSelectedSchedule = () => {
         if (selectedCell) {
@@ -45,8 +52,8 @@ const TableByDays = () => {
         for(let i=0;i<schedule.length;i++){
             if(schedule[i].number ===selectedLessonNumber){
                 if(schedule[i].auditorium_list.number===aud.numberOfAud){
-                    let currentDate = new Date(startDate.startDate); 
-                    currentDate.setDate(startDate.startDate.getDate() + 7 * (week.numberOfWeek - 1) - startDate.startDate.getDay() + daysOfWeek.indexOf(selectedCell.day) + 1);
+                    let currentDate = new Date(startDate); 
+                    currentDate.setDate(startDate.getDate() + 7 * (week.numberOfWeek - 1) - startDate.getDay() + daysOfWeek.indexOf(selectedCell.day) + 1);
                     let tempDate = new Date(schedule[i].firstDate);
                     let tempLastDate = new Date(schedule[i].lastDate);
                     tempDate.setDate(tempDate.getDate());
@@ -64,8 +71,8 @@ const TableByDays = () => {
         for(let i=0;i<scheduleReq.length;i++){
             if(scheduleReq[i].number === selectedLessonNumber && scheduleReq[i].status !=="Отклонена"){
                 if(scheduleReq[i].auditorium_list.number===aud.numberOfAud){
-                    let currentDate = new Date(startDate.startDate); 
-                    currentDate.setDate(startDate.startDate.getDate() + 7 * (week.numberOfWeek - 1) - startDate.startDate.getDay() + daysOfWeek.indexOf(selectedCell.day) + 1);
+                    let currentDate = new Date(startDate); 
+                    currentDate.setDate(startDate.getDate() + 7 * (week.numberOfWeek - 1) - startDate.getDay() + daysOfWeek.indexOf(selectedCell.day) + 1);
                     let tempDate = new Date(scheduleReq[i].firstDate);
                     let tempLastDate = new Date(scheduleReq[i].lastDate);
                     tempDate.setDate(tempDate.getDate());
@@ -90,8 +97,8 @@ const TableByDays = () => {
                 if(schedule[i].auditorium_list.number===aud.numberOfAud){
                                     //Чтобы не зацикливалось если период равен 0
                  if(schedule[i].period === 0) schedule[i].period = 1
-                    let currentDate = new Date(startDate.startDate); 
-                    currentDate.setDate(startDate.startDate.getDate() + 7 * (week.numberOfWeek - 1) - startDate.startDate.getDay() + dayOfWeek + 1);
+                    let currentDate = new Date(startDate); 
+                    currentDate.setDate(startDate.getDate() + 7 * (week.numberOfWeek - 1) - startDate.getDay() + dayOfWeek + 1);
                     let tempDate = new Date(schedule[i].firstDate);
                     let tempLastDate = new Date(schedule[i].lastDate);
                     tempDate.setDate(tempDate.getDate());
@@ -111,8 +118,8 @@ const TableByDays = () => {
                 if(scheduleReq[i].auditorium_list.number===aud.numberOfAud){
                                     //Чтобы не зацикливалось если период равен 0
                 if(scheduleReq[i].period === 0) scheduleReq[i].period = 1
-                    let currentDate = new Date(startDate.startDate); 
-                    currentDate.setDate(startDate.startDate.getDate() + 7 * (week.numberOfWeek - 1) - startDate.startDate.getDay() + dayOfWeek + 1);
+                    let currentDate = new Date(startDate); 
+                    currentDate.setDate(startDate.getDate() + 7 * (week.numberOfWeek - 1) - startDate.getDay() + dayOfWeek + 1);
                     let tempDate = new Date(scheduleReq[i].firstDate);
                     let tempLastDate = new Date(scheduleReq[i].lastDate);
                     tempDate.setDate(tempDate.getDate());
@@ -137,7 +144,7 @@ const TableByDays = () => {
     // Возвращаем разметку компонента
     return (
         <>
-            <Table responsive striped bordered hover className="mt-3" style={{ position: 'relative' }}>
+            <Table striped bordered hover className="mt-3" style={{ position: 'relative' }}>
                 <thead style={{ position: 'sticky', top: -1, backgroundColor: 'white', zIndex: 1 }}>
                     <tr>
                         <th>День недели</th>

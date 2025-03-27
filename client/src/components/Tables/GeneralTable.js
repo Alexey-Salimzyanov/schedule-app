@@ -4,6 +4,7 @@ import '../../styles/Table.css';
 import { Context } from "../.."; 
 import { getLessons } from "../../http/lessonAPI";
 import { observer } from "mobx-react-lite";
+import { getInit } from "../../http/initAPI";
 
 // Списки для дней недели, недель и уроков
 const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
@@ -12,20 +13,25 @@ const lessons = ['1 пара', '2 пара', '3 пара', '4 пара', '5 па
 
 // Компонент общей таблицы
 const GeneralTable = observer( () =>{
-    const {startDate} = useContext(Context); 
     const [schedule, setSchedule] = useState([]); 
     const {aud} = useContext(Context); 
-
+    const [DBstartDate, setStartDate] = useState(null)
     // Функция для получения данных о уроках из БД
     const fetchData = async () => {
          const scheduleData = await getLessons();
          setSchedule(scheduleData); 
+
+         const response = await getInit(1);
+         const startDateFromDB = response.startDate;
+         setStartDate(startDateFromDB)   
     };
 
     // Используем useEffect для вызова fetchData при монтировании компонента
     useEffect(() => {
         fetchData();
     }, []);
+
+    let startDate = new Date(DBstartDate);
 
     // Функция для получения недель между двумя датами с учетом периода
     const getWeeks = (firstDate, lastDate, period) => {
@@ -34,7 +40,7 @@ const GeneralTable = observer( () =>{
         let currentDate = new Date(firstDate);
         let endDate = new Date(lastDate);
         while (currentDate <= endDate) {
-            let weekNumber = Math.floor((currentDate - new Date(startDate.startDate)) / (7 * 24 * 60 * 60 * 1000)) + 1;
+            let weekNumber = Math.floor((currentDate - new Date(startDate)) / (7 * 24 * 60 * 60 * 1000)) + 1;
             if (!weeks.includes(weekNumber)) {
                 weeks.push(weekNumber);
             }
@@ -48,7 +54,7 @@ const GeneralTable = observer( () =>{
         let cellContent = [];
 
         for (let scheduleItem of schedule) {
-            if(new Date(scheduleItem.lastDate) >= new Date(startDate.startDate)){
+            if(new Date(scheduleItem.lastDate) >= new Date(startDate)){
                 let scheduleItemDayOfWeek = new Date(scheduleItem.firstDate).getDay();
                 if (aud.numberOfAud === scheduleItem.auditorium_list.number && scheduleItemDayOfWeek === day && scheduleItem.number === lesson) {
                     let weeks = getWeeks(scheduleItem.firstDate, scheduleItem.lastDate, scheduleItem.period);
@@ -69,7 +75,7 @@ const GeneralTable = observer( () =>{
     
     // Возвращаем разметку таблицы
     return(
-            <Table responsive striped bordered hover className="mt-3" style={{ position: 'relative' }}>
+            <Table striped bordered hover className="mt-3" style={{ position: 'relative' }}>
                 <thead style={{ position: 'sticky', top: -1, backgroundColor: 'white', zIndex: 1 }}>
                 <tr>
                     <th>День недели</th>

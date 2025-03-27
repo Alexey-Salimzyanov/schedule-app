@@ -6,7 +6,6 @@ import ScheduleViewStore from './store/ScheduleViewStore';
 import DayOfWeekStore from './store/DayOfWeekStore';
 import NumberOfWeekStore from './store/NumberOfWeekStore';
 import NumberOfAudStore from './store/NumburOfAudStore';
-import StartDateStore from './store/StartDateStore';
 import ActiveTableStore from './store/ActiveTableStore';
 
 export const Context = createContext(null)
@@ -22,7 +21,6 @@ root.render(
     day: new DayOfWeekStore(), // Состояние дня недели
     week: new NumberOfWeekStore(), // Состояние номера недели
     aud: new NumberOfAudStore(), // Состояние номера аудитории
-    startDate: new StartDateStore(), // Состояние даты начала семестра
     table: new ActiveTableStore(), // Состояние активной таблицы
   }}>
     <App />

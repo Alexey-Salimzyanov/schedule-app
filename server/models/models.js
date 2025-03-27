@@ -66,6 +66,10 @@ const TypeList = sequelize.define('type_list',{
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name:{type: DataTypes.STRING, unique: true},
 })
+const InitList = sequelize.define('init_list',{
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    startDate:{type: DataTypes.STRING},
+})
 
 // Описываем связи между моделями
 TeacherList.hasMany(ClassSchedule, { onDelete: 'CASCADE' })
@@ -116,4 +120,5 @@ module.exports = {
     ClassSchedule,
     RequestList,
     TypeList,
+    InitList,
 }
