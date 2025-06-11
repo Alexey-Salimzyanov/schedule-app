@@ -30,6 +30,20 @@ const TeacherTable = () => {
         setShowEditTeacherModal(true); // Открываем модальное окно редактирования
     };
 
+    // Функция для удаления преподавателя с подтверждением
+    const handleDeleteTeacher = async (id, teacherName) => {
+        const confirmDelete = window.confirm(`Вы уверены, что хотите удалить преподавателя ${teacherName}?`);
+        if (confirmDelete) {
+            try {
+                await deleteTeacher(id);
+                fetchData();
+            } catch (error) {
+                console.error("Ошибка при удалении преподавателя:", error);
+                alert("Не удалось удалить преподавателя");
+            }
+        }
+    };
+
     // Используем useEffect для вызова fetchData при монтировании компонента
     useEffect(() => {
         fetchData();
@@ -62,22 +76,19 @@ const TeacherTable = () => {
                             <td>{item.surname_N_P}</td>
                             <td>{item.department_list && item.department_list.name ? item.department_list.name : 'NULL'}</td>
                             <td>{item.position_list && item.position_list.short_name ? item.position_list.short_name : 'NULL'}</td>
-                            <td>
+                             <td>
                                 <Button
                                     variant="outline-danger"
-                                    onClick={async () => {
-                                        await deleteTeacher(item.id);
-                                        fetchData();
-                                    }}
-                                    className="me-2" // Добавляем отступ между кнопками
+                                    onClick={() => handleDeleteTeacher(item.id, item.surname_N_P)}
+                                    className="me-2"
                                 >
                                     Удалить
                                 </Button>
-                                </td>
-                                <td>
+                            </td>
+                            <td>
                                 <Button
-                                     variant="outline-dark"
-                                    onClick={() => handleEditTeacher(item)} // Открываем модальное окно редактирования
+                                    variant="outline-dark"
+                                    onClick={() => handleEditTeacher(item)}
                                 >
                                     Редактировать
                                 </Button>

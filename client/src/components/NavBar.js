@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import { Button } from "react-bootstrap";
-import { ADMIN_ROUTE, LOGIN_ROUTE, REQUESTS_ROUTE, SCHEDULE_ROUTE, INFO_ROUTE, MY_ACCOUNT_ROUTE} from "../utils/consts";
+import { ADMIN_ROUTE, LOGIN_ROUTE, SCHEDULE_ROUTE, INFO_ROUTE, MY_ACCOUNT_ROUTE} from "../utils/consts";
 import { NavLink } from 'react-router-dom';
 import { observer } from "mobx-react-lite";
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -44,18 +44,16 @@ const NavBar = observer(() => {
                     </Nav>
                     :
                     user.isAuth === 1 ?
-                        // Если пользователь авторизован, показать кнопки "Мои заявки" и "Выйти"
+                        // Если пользователь авторизован, показать кнопки:
                         <Nav className="ml-auto">
                             <Button variant={"outline-light"} onClick={() => { navigate(INFO_ROUTE) }}>Справка</Button>
-                            <Button variant={"outline-light"} style={{ marginLeft: '0.5rem' }} onClick={() => navigate(REQUESTS_ROUTE)}>Мои заявки</Button>
                             <Button variant={"outline-light"} style={{ marginLeft: '0.5rem' }} onClick={() => navigate(MY_ACCOUNT_ROUTE)}>Личный кабинет</Button> 
                             <Button variant={"outline-light"} style={{ marginLeft: '0.5rem' }} onClick={() => logOut()}>Выйти</Button>
                         </Nav>
                         :
-                        // Если пользователь - админ, показать дополнительные кнопки
+                        // Если пользователь - админ, показать кнопки:
                         <Nav className="ml-auto">
                             <Button variant={"outline-light"} onClick={() => { navigate(INFO_ROUTE) }}>Справка</Button>
-                            <Button variant={"outline-light"} style={{ marginLeft: '0.5rem' }} onClick={() => navigate(REQUESTS_ROUTE)}>Мои заявки</Button>
                             <Button variant={"outline-light"} style={{ marginLeft: '0.5rem' }} onClick={() => navigate(ADMIN_ROUTE)}>Панель админа</Button>
                             <Button variant={"outline-light"} style={{ marginLeft: '0.5rem' }} onClick={() => logOut()}>Выйти</Button>
                         </Nav>

@@ -33,8 +33,3 @@ export const UpdateTeacher = async (id, surname_N_P, positionListId, departmentL
     return data;
 }
 
-// Функция для изменения прикрепленного преподавателя
-export const changeTeacher = async (userId, teacherListId) => {
-    const { data } = await $authHost.put('api/user/update-teacher', { userId, teacherListId });
-    return data;
-}

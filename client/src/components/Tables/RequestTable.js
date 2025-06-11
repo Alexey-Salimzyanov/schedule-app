@@ -1,20 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Table, Button } from "react-bootstrap";
 import { changeReqStatus, deleteReq, getReqLessons } from "../../http/lessonAPI";
 import CreateReqModal from "../Modals/CreateReq";
 import EditReqModal from "../Modals/EditRequest";
 
 // Компонент таблицы заявок
-const RequestTable = ({ extraActions = false }) => {
+const RequestTable = ({ extraActions = false, currentUser }) => {
 
     // Состояние для хранения списка заявок
     const [scheduleReq, setScheduleReq] = useState([]);
 
+    const [filteredReq, setFilteredReq] = useState([]);
+
     // Функция для получения данных о заявках из БД
-    const fetchData = async () => {
+     const fetchData = useCallback(async () => {
         const scheduleDataReq = await getReqLessons();
         setScheduleReq(scheduleDataReq);
-    };
+
+        if (currentUser && !extraActions) {
+            const teacherName = currentUser.teacher?.surname_N_P;
+            if (teacherName) {
+                const filtered = scheduleDataReq.filter(item =>
+                    item.teacher_list?.surname_N_P === teacherName
+                );
+                setFilteredReq(filtered);
+                return;
+            }
+        }
+       setFilteredReq(scheduleDataReq);
+    }, [currentUser, extraActions]);
 
     // Функция для удаления заявки с подтверждением
     const handleDeleteReq = async (id) => {
@@ -28,7 +42,7 @@ const RequestTable = ({ extraActions = false }) => {
     // Используем useEffect для вызова fetchData при монтировании компонента
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [fetchData, currentUser]);
 
     // Состояние для управления модальным окном создания урока
     const [showRequestModal, setShowRequestModal] = useState(false);
@@ -40,10 +54,13 @@ const RequestTable = ({ extraActions = false }) => {
     const handleShowRequestModal = () => {
         setShowRequestModal(true);
     };
-    const handleShowEditRequestModal = (req) => {        
+    const handleShowEditRequestModal = (req) => {
         setSelectedRequest(req);
         setShowEditRequestModal(true);
     };
+
+    const requestsToShow = extraActions ? scheduleReq : filteredReq;
+
     return (
         <>
             <Button
@@ -73,7 +90,7 @@ const RequestTable = ({ extraActions = false }) => {
                 </thead>
                 <tbody>
                     {/* Отображаем список заявок */}
-                    {scheduleReq.sort((a, b) => b.id - a.id).map((item, index) => (
+                    {requestsToShow.sort((a, b) => b.id - a.id).map((item, index) => (
                         <tr key={index}>
                             <td>{item.id}</td>
                             <td>{new Date(item.submissionDate).toLocaleDateString()}</td>
@@ -87,7 +104,6 @@ const RequestTable = ({ extraActions = false }) => {
                             <td>{new Date(item.lastDate).toLocaleDateString()}</td>
                             <td>{item.status}</td>
                             <td>
-                                {/* Кнопка для удаления заявки с подтверждением */}
                                 <Button
                                     variant="outline-danger"
                                     onClick={() => handleDeleteReq(item.id)} // Используем функцию для удаления с подтверждением

@@ -31,13 +31,22 @@ const UsersTable = () => {
     const handleShowUserModal = () => {
         setShowUserModal(true);
     };
+
+    // Функция для удаления типа с подтверждением   
+    const handleDeleteUser = async (userId) => {
+        const confirmed = window.confirm('Вы действительно хотите удалить этого пользователя?');
+        if (confirmed) {
+            await deleteUser(userId);
+            fetchData();
+        }
+    };
     return (
         <>
             <Button
                 variant="primary"
                 onClick={handleShowUserModal}
                 className="mt-3"
-                style={{ backgroundColor: '#4682B4', borderColor: '#4682B4' }} 
+                style={{ backgroundColor: '#4682B4', borderColor: '#4682B4' }}
             >
                 Добавить пользователя
             </Button>
@@ -60,9 +69,15 @@ const UsersTable = () => {
                             <td>{item.role}</td>
                             <td>{item.teacher_list.surname_N_P}</td>
                             <td>
-                                <Button variant="outline-danger" className="me-2" onClick={async () => { await deleteUser(item.id); fetchData(); }}>Удалить</Button>
-                                </td>
-                                <td>
+                                <Button
+                                    variant="outline-danger"
+                                    className="me-2"
+                                    onClick={() => handleDeleteUser(item.id)}
+                                >
+                                    Удалить
+                                </Button>
+                            </td>
+                            <td>
                                 <Button
                                     variant="outline-dark"
                                     onClick={() => handleShowEditUserModal(item)}
@@ -80,8 +95,8 @@ const UsersTable = () => {
                 user={selectedUser}
                 fetchData={fetchData} // Передаем функцию обновления данных
             />
-            <CreateUserModal 
-                show={showUserModal} 
+            <CreateUserModal
+                show={showUserModal}
                 onHide={() => { setShowUserModal(false); fetchData(); }}
             />
         </>

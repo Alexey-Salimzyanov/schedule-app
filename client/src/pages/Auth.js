@@ -21,17 +21,21 @@ const Auth = observer(() => {
 
     // useEffect для получения списка преподавателей при загрузке компонента
     useEffect(() => {
-        const fetchTeachers = async () => {
-            try {
-                const response = await getTeachers(); 
-                setTeachers(response); 
-            } catch (error) {
-                console.error("Ошибка при получении преподавателей:", error); 
-            }
-        };
+    const fetchTeachers = async () => {
+        try {
+            const response = await getTeachers(); 
+            // Сортируем преподавателей по фамилии в алфавитном порядке
+            const sortedTeachers = response.sort((a, b) => {
+                return a.surname_N_P.localeCompare(b.surname_N_P);
+            });
+            setTeachers(sortedTeachers); 
+        } catch (error) {
+            console.error("Ошибка при получении преподавателей:", error); 
+        }
+    };
 
-        fetchTeachers();
-    }, []);
+    fetchTeachers();
+}, []);
 
     const click = async () => {
         try {

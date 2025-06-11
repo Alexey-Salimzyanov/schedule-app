@@ -22,7 +22,7 @@ const SideBar = observer(() => {
     // Получение списка аудиторий
     const [auditoriums, setAuditoriums] = useState([]);
     const [DBstartDate, setStartDate] = useState(null)
-    
+
     useEffect(() => {
         const fetchData = async () => {
             const data = await getAuds();
@@ -30,12 +30,12 @@ const SideBar = observer(() => {
 
             const response = await getInit(1);
             const startDateFromDB = response.startDate;
-            setStartDate(startDateFromDB)   
+            setStartDate(startDateFromDB)
         };
         fetchData();
     }, []);
 
-    
+
     // Вычисление текущей даты на основе даты начала семетра и номера недели
     let startDate = new Date(DBstartDate);
     // Вычисление текущей даты
@@ -112,6 +112,18 @@ const SideBar = observer(() => {
                 </label>
             </div>
 
+            <div>
+                <label>
+                    <input
+                        type="radio"
+                        value="по дате"
+                        checked={view.scheduleView === "по дате"}
+                        onChange={handleChange}
+                        style={{ marginRight: '5px' }}
+                    />
+                    По дате
+                </label>
+            </div>
             {/* В зависимости от выбранного представления отображаются разные элементы управления */}
             {view.scheduleView === "по дням" ? (
                 <div>
@@ -209,7 +221,7 @@ const SideBar = observer(() => {
                             <Button variant="" style={{ outline: '1px solid #000' }}>{aud.numberOfAud}</Button>
                             <Dropdown.Toggle split variant="secondary" id="dropdown-custom-2" style={{ outline: '1px solid #000' }} />
                             <Dropdown.Menu className="super-colors" style={{ maxHeight: '200px', overflowY: 'auto' }}>
-                                {auditoriums.map((NumberOfAud, index ) => (
+                                {auditoriums.map((NumberOfAud, index) => (
                                     <Dropdown.Item key={index} onClick={() => aud.setNumberOfAud(NumberOfAud)}>
                                         {NumberOfAud}
                                     </Dropdown.Item>

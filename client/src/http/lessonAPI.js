@@ -16,7 +16,6 @@ export const getReqLessons = async ()=>{
     // Возвращение полученных данных
     return data
 }
-
 // Функция для создания заявки
 export const createReqLesson = async (number,submissionDate,firstDate,period,lastDate,
     status,teacherListId,disciplineListId,groupListId,auditoriumListId)=>{

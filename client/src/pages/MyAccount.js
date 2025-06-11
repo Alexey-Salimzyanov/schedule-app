@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 import { getCurrentUser  } from "../http/userAPI"; 
 import ChangePassword from "../components/Modals/ChangePassword";
+import RequestTable from "../components/Tables/RequestTable"; 
 import '../styles/MyAccount.css'; 
 
 const MyAccount = () => {
@@ -9,8 +10,8 @@ const MyAccount = () => {
     const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
 
     const fetchData = async () => {
-        const currentUserData = await getCurrentUser ();
-        setUser (currentUserData);
+        const currentUserData = await getCurrentUser();
+        setUser(currentUserData);
     };
 
     useEffect(() => {
@@ -24,14 +25,14 @@ const MyAccount = () => {
     return (
         <>
             <div className="table-container">
-                <h2 className="table-title">Добро пожаловать в личный кабинет!</h2>
+                
                 <br />
                 {user ? (
                     <Table striped bordered hover className="user-table">
                         <thead>
                             <tr>
-                                <th>Ваш логин</th>
-                                <th>Ваши инициалы</th> 
+                                <th>Логин</th>
+                                <th>ФИО</th> 
                                 <th>Действия</th>
                             </tr>
                         </thead>
@@ -61,8 +62,13 @@ const MyAccount = () => {
                 user={user}
                 fetchData={fetchData}
             />
+            <div className="table-container mt-3">
+                <h3 className="table-title-small">Заявки:</h3> 
+                {user && <RequestTable extraActions={false} currentUser={user} />}
+            </div>
         </>
     );
 };
 
 export default MyAccount;
+

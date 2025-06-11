@@ -29,18 +29,19 @@ export const publicRoutes = [
 
 // Определение маршрутов, доступных авторизованным пользователям
 export const authRoutes = [
+    
     {
-        path: REQUESTS_ROUTE, // Маршрут к странице запросов
-        Component: MyRequests // Компонент страницы запросов
-    },
-    {
-        path: MY_ACCOUNT_ROUTE, // Маршрут к странице "Мой кабинет"
-        Component: MyAccount // Компонент страницы "Мой кабинет"
+        path: MY_ACCOUNT_ROUTE, // Маршрут к странице "Личный кабинет"
+        Component: MyAccount // Компонент страницы "Личный кабинет"
     },
 ];
 
 // Определение маршрутов, доступных администраторам
 export const adminRoutes = [
+    {
+        path: REQUESTS_ROUTE, // Маршрут к странице запросов
+        Component: MyRequests // Компонент страницы запросов
+    },
     {
         path: ADMIN_ROUTE, // Маршрут к административной странице
         Component: AdminPage // Компонент административной страницы
